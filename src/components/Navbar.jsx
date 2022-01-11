@@ -1,0 +1,78 @@
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { VscMenu } from "react-icons/vsc";
+import { IoSearchOutline } from "react-icons/io5";
+import { navItems } from "./navItems";
+
+function NavBar(props) {
+  const [showMenu, setSHowMenu] = useState(false);
+  const refMenuButton = useRef();
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (refMenuButton.current && !refMenuButton.current.contains(e.target)) {
+        setSHowMenu(false);
+      }
+    };
+    document.addEventListener("mouseup", checkIfClickedOutside);
+    return () => {
+      document.removeEventListener("mouseup", checkIfClickedOutside);
+    };
+  });
+
+  return (
+    <Fragment>
+      <div className="fixed z-10 top-0 w-full flex flex-row justify-end items-center h-12 tracking-wider font-sans text-lg bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
+        <div className="fixed left-0 top-0 flex flex-row items-center h-12">
+          <img src={props.logoLink} alt="logo" className="h-5/6 items-center" />
+          <span className="px-2 italic text-black font-bold tracking-normal">
+            {"Request & Issue Tracker"}
+          </span>
+        </div>
+        <nav
+          className={
+            "flex flex-col items-center absolute h-fit w-full bg-gradient-to-r from-sky-700 to-cyan-500 top-12 " +
+            "md:flex md:flex-row md:justify-end md:static md:top-0 md:h-12 md:bg-gradient-to-r md:from-sky-800 md:to-cyan-600 " +
+            ((showMenu && "block") || "hidden")
+          }
+        >
+          {navItems.map((item, index) => (
+            <div
+              key={index.toString()}
+              className="min-w-[7rem] py-1 text-center hover:bg-cyan-500/25"
+            >
+              <Link to={item.url}>{item.title}</Link>
+            </div>
+          ))}
+        </nav>
+        <button
+          className={`p-3 stroke-1 text-2xl hover:bg-cyan-500/25 md:hidden ${
+            showMenu && "bg-cyan-500/25"
+          }`}
+          onClick={() => setSHowMenu(!showMenu)}
+          ref={refMenuButton}
+        >
+          <VscMenu />
+        </button>
+      </div>
+      <div className="fixed z-0 top-12 py-4 px-12 w-full flex flex-col justify-between bg-gradient-to-r from-sky-700 to-cyan-500 text-white md:flex-row md:justify-between md:items-center">
+        <section className="inline-block mb-4 align-middle mr-8 text-sm italic md:mb-0">
+          {"Home>Requests>Req.123"}
+        </section>
+        <section className="inline-block align-middle min-w-[240px] h-8 text-black bg-white border shadow-md border-gray-300 rounded-md">
+          <input
+            placeholder="Search..."
+            className="p-2 inline-block align-middle w-5/6 h-full text-black placeholder-gray-400 focus:outline-none focus:border-none focus:ring-0 rounded-l-md text-xs"
+          />
+          <IoSearchOutline
+            onClick={() => console.log("clicked")}
+            className="inline-block align-middle w-1/6 h-full p-1.5 stroke-gray-500 hover:cursor-pointer"
+          />
+        </section>
+      </div>
+      <div className="mt-36 md:mt-24"></div>
+    </Fragment>
+  );
+}
+
+export default NavBar;
