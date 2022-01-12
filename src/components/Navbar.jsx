@@ -23,9 +23,9 @@ function NavBar(props) {
   return (
     <Fragment>
       <div className="fixed z-10 top-0 w-full flex flex-row justify-end items-center h-12 tracking-wider font-sans text-lg bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
-        <div className="fixed left-0 top-0 flex flex-row items-center h-12">
+        <div className="fixed left-2 top-0 flex flex-row items-center h-12">
           <img src={props.logoLink} alt="logo" className="h-5/6 items-center" />
-          <span className="px-2 italic text-black font-bold tracking-normal">
+          <span className="ml-2 italic text-white font-semibold tracking-normal">
             {"Request & Issue Tracker"}
           </span>
         </div>

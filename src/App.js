@@ -10,7 +10,7 @@ import logo from "./icons/logo.png";
 
 function App() {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen items-center">
       <NavBar logoLink={logo} />
       <Routes>
         <Route path="/" element={<Home />} />
