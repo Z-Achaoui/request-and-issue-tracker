@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { VscMenu } from "react-icons/vsc";
 import { IoSearchOutline } from "react-icons/io5";
 import { navItems } from "./navItems";
+import { useLocation } from "react-router-dom";
 
 function NavBar(props) {
   const [showMenu, setSHowMenu] = useState(false);
   const refMenuButton = useRef();
+  const location =
+    "home" + useLocation().pathname.replace(/\//g, ">").replace(/-/g, " ");
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -56,8 +59,8 @@ function NavBar(props) {
         </button>
       </div>
       <div className="fixed z-0 top-12 py-4 px-12 w-full flex flex-col justify-between bg-gradient-to-r from-sky-700 to-cyan-500 text-white md:flex-row md:justify-between md:items-center">
-        <section className="inline-block mb-4 align-middle mr-8 text-sm italic md:mb-0">
-          {"Home>Requests>Req.123"}
+        <section className="inline-block mb-4 align-middle mr-8 text-sm italic capitalize md:mb-0">
+          {location}
         </section>
         <section className="inline-block align-middle min-w-[240px] h-8 text-black bg-white border shadow-md border-gray-300 rounded-md">
           <input

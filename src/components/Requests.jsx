@@ -6,6 +6,7 @@ import {
   getPendingRequests,
   getCompletedRequests,
 } from "../services/requestService";
+import { Link } from "react-router-dom";
 
 function Requests(props) {
   const renderPendingRequests = () => {
@@ -60,14 +61,16 @@ function Requests(props) {
       <div className="grid grid-flow-row-dense w-3/4 text-cyan-700 font-semibold">
         <section className="flex flex-row place-items-center my-4 w-auto border shadow-sm rounded-md bg-cyan-50">
           <div className="inline-block border-r w-24 justify-center p-3">
-            <img src={newRequest} alt="newreq" />
+            <Link to="/requests/new-request">
+              <img src={newRequest} alt="newreq" />
+            </Link>
           </div>
           <span className="basis-3/4 pl-4 sm:pl-8">New request</span>
         </section>
         <section className="my-4 border shadow-sm rounded-md">
           <div className="flex flex-row place-items-center w-auto border shadow-sm rounded-t-md bg-cyan-50">
             <div className="border-r w-24 justify-center p-3">
-              <img src={pendingRequest} alt="newreq" />
+              <img src={pendingRequest} alt="pendingreq" />
             </div>
             <span className="basis-3/4 pl-4 sm:pl-8">Pending Requests</span>
           </div>
@@ -78,7 +81,7 @@ function Requests(props) {
         <section className="my-4 border shadow-sm rounded-md">
           <div className="flex flex-row place-items-center w-auto border shadow-sm rounded-t-md bg-cyan-50">
             <div className="border-r w-24 justify-center p-3">
-              <img src={completedRequest} alt="newreq" />
+              <img src={completedRequest} alt="pastreq" />
             </div>
             <span className="basis-3/4 pl-4 sm:pl-8">Request History</span>
           </div>
