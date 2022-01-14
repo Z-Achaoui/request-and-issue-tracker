@@ -30,48 +30,48 @@ function Requests(props) {
     pageSize
   );
 
-  const renderPendingRequests = () => {
+  const renderRequests = (badge, title, requests) => {
     return (
-      <table className="w-full text-center text-sm font-normal">
-        <thead>
-          <tr>
-            <th className="pl-4 py-2 border bg-gray-300">id</th>
-            <th className="pl-4 py-2 border bg-gray-300">subject</th>
-            <th className="pl-4 py-2 border bg-gray-300">date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pendingRequests.map((item, index) => (
-            <tr key={index}>
-              <td className="pl-4 py-2 border bg-gray-100">{item.id}</td>
-              <td className="pl-4 py-2 border bg-gray-100">{item.subject}</td>
-              <td className="pl-4 py-2 border bg-gray-100">{item.date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  };
-  const renderCompletedRequests = () => {
-    return (
-      <table className="w-full text-center text-sm font-normal">
-        <thead>
-          <tr>
-            <th className="pl-4 py-2 border bg-gray-300">id</th>
-            <th className="pl-4 py-2 border bg-gray-300">subject</th>
-            <th className="pl-4 py-2 border bg-gray-300">date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {completedRequests.map((item, index) => (
-            <tr key={index}>
-              <td className="pl-4 py-2 border bg-gray-100">{item.id}</td>
-              <td className="pl-4 py-2 border bg-gray-100">{item.subject}</td>
-              <td className="pl-4 py-2 border bg-gray-100">{item.date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Fragment>
+        <div className="flex flex-row place-items-center w-auto border shadow-sm rounded-t-md bg-cyan-50">
+          <div className="border-r w-24 justify-center p-3">
+            <img src={badge} alt="pendingreq" />
+          </div>
+          <span className="basis-3/4 pl-4 sm:pl-8 capitalize">{title}</span>
+        </div>
+        <div className="border-b shadow-sm rounded-md">
+          <table className="w-full text-center text-sm font-normal">
+            <thead>
+              <tr className="capitalize">
+                <th className="pl-4 py-2 border bg-gray-300">id</th>
+                <th className="pl-4 py-2 border bg-gray-300">subject</th>
+                <th className="pl-4 py-2 border bg-gray-300">date</th>
+                <th className="pl-4 py-2 border bg-gray-300">requester</th>
+                <th className="pl-4 py-2 border bg-gray-300">status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {requests.map((item, index) => (
+                <tr key={index}>
+                  <td className="pl-4 py-2 border bg-gray-100">{item.id}</td>
+                  <td className="pl-4 py-2 border bg-gray-100">
+                    {item.subject}
+                  </td>
+                  <td className="pl-4 py-2 border bg-gray-100">
+                    {item.created}
+                  </td>
+                  <td className="pl-4 py-2 border bg-gray-100">
+                    {item.requester}
+                  </td>
+                  <td className="pl-4 py-2 border bg-gray-100">
+                    {item.completed ? "Completed" : "Pending"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Fragment>
     );
   };
 
@@ -90,15 +90,7 @@ function Requests(props) {
           <span className="basis-3/4 pl-4 sm:pl-8">New request</span>
         </section>
         <section className="my-4 border shadow-sm rounded-md">
-          <div className="flex flex-row place-items-center w-auto border shadow-sm rounded-t-md bg-cyan-50">
-            <div className="border-r w-24 justify-center p-3">
-              <img src={pendingRequest} alt="pendingreq" />
-            </div>
-            <span className="basis-3/4 pl-4 sm:pl-8">Pending Requests</span>
-          </div>
-          <div className="border-b shadow-sm rounded-md">
-            {renderPendingRequests()}
-          </div>
+          {renderRequests(pendingRequest, "Pending Requests", pendingRequests)}
           <Pagination
             itemsCount={allPendingRequests.length}
             pageSize={pageSize}
@@ -107,15 +99,11 @@ function Requests(props) {
           />
         </section>
         <section className="my-4 border shadow-sm rounded-md">
-          <div className="flex flex-row place-items-center w-auto border shadow-sm rounded-t-md bg-cyan-50">
-            <div className="border-r w-24 justify-center p-3">
-              <img src={completedRequest} alt="pastreq" />
-            </div>
-            <span className="basis-3/4 pl-4 sm:pl-8">Request History</span>
-          </div>
-          <div className="border-b shadow-sm rounded-md">
-            {renderCompletedRequests()}
-          </div>
+          {renderRequests(
+            completedRequest,
+            "Completed Requests",
+            completedRequests
+          )}
           <Pagination
             itemsCount={allCompletedRequests.length}
             pageSize={pageSize}
