@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import newRequest from "../icons/newRequestIcon1.png";
 import pendingRequest from "../icons/pendingRequestsIcon1.png";
 import completedRequest from "../icons/completedRequestsIcon1.png";
