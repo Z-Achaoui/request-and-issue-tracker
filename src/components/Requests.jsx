@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import newRequest from "../icons/newRequestIcon1.png";
 import pendingRequest from "../icons/pendingRequestsIcon1.png";
 import completedRequest from "../icons/completedRequestsIcon1.png";
@@ -7,8 +7,29 @@ import {
   getCompletedRequests,
 } from "../services/requestService";
 import { Link } from "react-router-dom";
+import Pagination from "./commun/Pagination";
+import { paginate } from "../utils/paginate";
 
 function Requests(props) {
+  const [pendingRequestsCurrentPage, setPendingRequestsCurrentPage] =
+    useState(1);
+  const [completedRequestsCurrentPage, setCompletedRequestsCurrentPage] =
+    useState(1);
+
+  const pageSize = 2;
+  const allPendingRequests = getPendingRequests();
+  const pendingRequests = paginate(
+    allPendingRequests,
+    pendingRequestsCurrentPage,
+    pageSize
+  );
+  const allCompletedRequests = getCompletedRequests();
+  const completedRequests = paginate(
+    allCompletedRequests,
+    completedRequestsCurrentPage,
+    pageSize
+  );
+
   const renderPendingRequests = () => {
     return (
       <table className="w-full text-center text-sm font-normal">
@@ -20,7 +41,7 @@ function Requests(props) {
           </tr>
         </thead>
         <tbody>
-          {getPendingRequests().map((item, index) => (
+          {pendingRequests.map((item, index) => (
             <tr key={index}>
               <td className="pl-4 py-2 border bg-gray-100">{item.id}</td>
               <td className="pl-4 py-2 border bg-gray-100">{item.subject}</td>
@@ -42,7 +63,7 @@ function Requests(props) {
           </tr>
         </thead>
         <tbody>
-          {getCompletedRequests().map((item, index) => (
+          {completedRequests.map((item, index) => (
             <tr key={index}>
               <td className="pl-4 py-2 border bg-gray-100">{item.id}</td>
               <td className="pl-4 py-2 border bg-gray-100">{item.subject}</td>
@@ -53,6 +74,7 @@ function Requests(props) {
       </table>
     );
   };
+
   return (
     <Fragment>
       <header className="flex-initial justify-center items-center w-full min-h-fit text-3xl p-8 text-cyan-700 font-semibold italic">
@@ -77,6 +99,12 @@ function Requests(props) {
           <div className="border-b shadow-sm rounded-md">
             {renderPendingRequests()}
           </div>
+          <Pagination
+            itemsCount={allPendingRequests.length}
+            pageSize={pageSize}
+            currentPage={pendingRequestsCurrentPage}
+            onPageChange={setPendingRequestsCurrentPage}
+          />
         </section>
         <section className="my-4 border shadow-sm rounded-md">
           <div className="flex flex-row place-items-center w-auto border shadow-sm rounded-t-md bg-cyan-50">
@@ -88,6 +116,12 @@ function Requests(props) {
           <div className="border-b shadow-sm rounded-md">
             {renderCompletedRequests()}
           </div>
+          <Pagination
+            itemsCount={allCompletedRequests.length}
+            pageSize={pageSize}
+            currentPage={completedRequestsCurrentPage}
+            onPageChange={setCompletedRequestsCurrentPage}
+          />
         </section>
       </div>
       <div className="flex-auto"></div>
