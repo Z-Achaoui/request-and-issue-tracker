@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Issues from "./components/Issues";
-import NavBar from "./components/Navbar";
+import NavBar from "./components/common/Navbar";
 import NoPage from "./components/NoPage";
 import RequestForm from "./components/RequestForm";
 import Requests from "./components/Requests";

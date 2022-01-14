@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import Card from "./Card";
+import Card from "./common/Card";
 import requestIcon from "../icons/requestIcon.png";
 import issueIcon from "../icons/issueIcon.png";
 import supportIcon from "../icons/supportIcon.png";

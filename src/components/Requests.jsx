@@ -7,7 +7,7 @@ import {
   getCompletedRequests,
 } from "../services/requestService";
 import { Link } from "react-router-dom";
-import Pagination from "./commun/Pagination";
+import Pagination from "./common/Pagination";
 import { paginate } from "../utils/paginate";
 
 function Requests(props) {
