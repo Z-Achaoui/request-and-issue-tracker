@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { getMessages } from "../services/messagesService";
 import { getRequest } from "../services/requestService";
 import MessageFeed from "./MessageFeed";
-import MessageInput from "./MessageInput";
+import MessageInput from "./common/MessageInput";
 import RequestSummary from "./RequestSummary";
 
 function RequestStatus(props) {
@@ -15,8 +15,11 @@ function RequestStatus(props) {
         <h1>{`Request ${request.id} : ${request.subject}`}</h1>
       </header>
       <div className="grid grid-cols-2 grid-flow-row-dense place-items-center sm:grid-cols-3">
-        <div className="col-span-2 w-full p-4 my-4">
-          <MessageInput disabled={request.completed} />
+        <div className="col-span-2 w-full p-4 my-4 justify-center">
+          <MessageInput
+            disabled={request.completed}
+            placeholder={"Write a new message..."}
+          />
         </div>
         <div className="col-span-2">
           {request.completed ? (

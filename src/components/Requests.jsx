@@ -45,8 +45,12 @@ function Requests(props) {
               <tr className="capitalize">
                 <th className="pl-4 py-2 border bg-gray-300">id</th>
                 <th className="pl-4 py-2 border bg-gray-300">subject</th>
-                <th className="pl-4 py-2 border bg-gray-300">date</th>
-                <th className="pl-4 py-2 border bg-gray-300">requester</th>
+                <th className="pl-4 py-2 border bg-gray-300 hidden sm:table-cell">
+                  date
+                </th>
+                <th className="pl-4 py-2 border bg-gray-300 hidden sm:table-cell">
+                  requester
+                </th>
                 <th className="pl-4 py-2 border bg-gray-300">status</th>
               </tr>
             </thead>
@@ -57,10 +61,10 @@ function Requests(props) {
                   <td className="pl-4 py-2 border bg-gray-100">
                     {item.subject}
                   </td>
-                  <td className="pl-4 py-2 border bg-gray-100">
+                  <td className="pl-4 py-2 border bg-gray-100 hidden sm:table-cell">
                     {item.created}
                   </td>
-                  <td className="pl-4 py-2 border bg-gray-100">
+                  <td className="pl-4 py-2 border bg-gray-100 hidden sm:table-cell">
                     {item.requester}
                   </td>
                   <td className="pl-4 py-2 border bg-gray-100">
