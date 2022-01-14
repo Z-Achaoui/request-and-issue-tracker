@@ -7,6 +7,7 @@ const requests = [
     last_update: "10/01/2022",
     completed: true,
     completion_date: "10/01/2022",
+    body: "Need an update for sound edit software",
   },
   {
     id: 2,
@@ -15,6 +16,8 @@ const requests = [
     created: "22/12/2022",
     last_update: "01/01/2022",
     completed: false,
+    completion_date: "",
+    body: "laptop went down and wouldn't restart...",
   },
   {
     id: 3,
@@ -32,6 +35,8 @@ const requests = [
     created: "12/10/2021",
     last_update: "05/01/2022",
     completed: false,
+    completion_date: "",
+    body: "Need an intervention to install software....",
   },
   {
     id: 5,
@@ -41,6 +46,7 @@ const requests = [
     last_update: "27/07/2022",
     completed: true,
     completion_date: "27/07/2021",
+    body: "........",
   },
 ];
 

@@ -1,14 +1,14 @@
 import React, { Fragment } from "react";
 
 function RequestSummary(props) {
-  const { id, completed, created, last_update } = props.request;
+  const { id, completed, created, last_update, body } = props.request;
   return (
     <Fragment>
       <section className="w-full">
         <span className="inline-block mb-2 font-semibold underline">
           Informations:
         </span>
-        <table className="table-auto border-collapse border w-full p-4 text-left text-xs">
+        <table className="table-auto border-collapse border w-full p-4 text-left text-sm">
           <tbody>
             <tr>
               <th className="px-2 py-2 border bg-gray-300">Number</th>
@@ -37,7 +37,22 @@ function RequestSummary(props) {
         <span className="inline-block mb-2 font-semibold underline">
           Request Details:
         </span>
-        <div>Reminder of the user entries on the request form</div>
+        <div>
+          <table className="table-auto border-collapse border w-full p-4 text-left text-sm">
+            <thead>
+              <tr>
+                <th className="px-2 py-2 border bg-gray-300">
+                  Request Description
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="px-2 py-2 border bg-gray-100 italic">{body}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </Fragment>
   );
