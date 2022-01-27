@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 import NavBar from "./components/common/Navbar";
 import Home from "./components/Home";
 import Issues from "./components/Issues";
@@ -13,74 +14,49 @@ import RequestStatus from "./components/RequestStatus";
 import Support from "./components/Support";
 import logo from "./icons/logo.png";
 
-const initialState = {
-  isSignedIn: false,
-  user: {
-    id: 0,
-    firstName: "",
-    lastName: "",
-    email: "",
-  },
-  redirectAfterLogin: false,
-};
+function App() {
+  const isLoggedIn = useSelector((state) => state.accountLogin.value);
+  const user = useSelector((state) => state.loadUser.value);
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = initialState;
-  }
+  const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.isSignedIn && !prevState.isSignedIn)
-      this.handleRedirectAfterLoggin();
-  }
+  useEffect(() => {
+    if (isLoggedIn && !redirectAfterLogin) {
+      setRedirectAfterLogin(true);
+    }
+  });
 
-  loadUser = (user) => {
-    this.setState({ ...this.state, ...{ user }, ...{ isSignedIn: true } });
-  };
-
-  handleRedirectAfterLoggin = () => {
-    this.setState({ ...this.state, ...{ redirectAfterLogin: true } });
-  };
-
-  render() {
-    return (
-      <div className="flex flex-col h-screen items-center">
-        {this.state.isSignedIn ? (
-          <Fragment>
-            {console.log("home ", this.state)}
-            <NavBar logoLink={logo} />
-            {!this.state.redirectAfterLogin && (
-              <Navigate to="/home" replace={true} />
-            )}
-            <Routes>
-              <Route path="/home" element={<Home />} />
-              <Route path="/requests" element={<Requests />} />
-              <Route path="/requests/new-request" element={<RequestForm />} />
-              <Route
-                path="/requests/request-status"
-                element={<RequestStatus />}
-              />
-              <Route path="/issues" element={<Issues />} />
-              <Route path="/support" element={<Support />} />
-              <Route path="*" element={<NoPage />} />
-            </Routes>
-          </Fragment>
-        ) : (
+  return (
+    <div className="flex flex-col h-screen items-center">
+      {isLoggedIn ? (
+        <Fragment>
+          {console.log("home ", user)}
+          <NavBar logoLink={logo} />
+          {!redirectAfterLogin && <Navigate to="/home" replace={true} />}
           <Routes>
-            {console.log("landing page ", this.state)}
+            <Route path="/home" element={<Home />} />
+            <Route path="/requests" element={<Requests />} />
+            <Route path="/requests/new-request" element={<RequestForm />} />
             <Route
-              path="/"
-              element={<LandingPage loadUser={this.loadUser} />}
+              path="/requests/request-status"
+              element={<RequestStatus />}
             />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
+            <Route path="/issues" element={<Issues />} />
+            <Route path="/support" element={<Support />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
-        )}
-      </div>
-    );
-  }
+        </Fragment>
+      ) : (
+        <Routes>
+          {console.log("landing page ", user)}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="*" element={<NoPage />} />
+        </Routes>
+      )}
+    </div>
+  );
 }
 
 export default App;

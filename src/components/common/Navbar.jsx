@@ -4,10 +4,13 @@ import { VscMenu } from "react-icons/vsc";
 import { IoSearchOutline } from "react-icons/io5";
 import { navItems } from "./navItems";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { loadUser } from "../../app/userSlice";
 
 function NavBar(props) {
   const [showMenu, setSHowMenu] = useState(false);
   const refMenuButton = useRef();
+  const { firstName, lastName } = useSelector((state) => state.loadUser.value);
   const location =
     "home" + useLocation().pathname.replace(/\//g, ">").replace(/-/g, " ");
 
@@ -47,6 +50,9 @@ function NavBar(props) {
               <Link to={item.url}>{item.title}</Link>
             </div>
           ))}
+          <div className="min-w-[7rem] py-1 text-center text-base italic underline hover:bg-cyan-500/25">
+            <Link to="/home">{`@${firstName} ${lastName}`}</Link>
+          </div>
         </nav>
         <button
           className={`p-3 stroke-1 text-2xl hover:bg-cyan-500/25 md:hidden ${

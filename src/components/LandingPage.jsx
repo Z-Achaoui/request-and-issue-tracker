@@ -1,18 +1,26 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../app/loginSlice";
+import { loadUser } from "../app/userSlice";
 
 function LandingPage(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleTourAccountLogin = () => {
     //fetch to database tourguide@example.com & password
     //if id existing then Load User and navigate to home page
 
-    props.loadUser({
-      id: 1,
-      firstName: "Tour",
-      lastName: "Guide",
-      email: "tourguide@example.com",
-    });
+    dispatch(login());
+    dispatch(
+      loadUser({
+        id: 1,
+        firstName: "Tour",
+        lastName: "Guide",
+        email: "tourguide@example.com",
+      })
+    );
   };
 
   return (
