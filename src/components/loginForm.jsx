@@ -1,6 +1,9 @@
 import React from "react";
 import Joi from "joi";
 import Form from "./common/form";
+import { useDispatch } from "react-redux";
+import { login } from "../app/loginSlice";
+import { loadUser } from "../app/userSlice";
 
 class LoginForm extends Form {
   state = {
@@ -13,8 +16,41 @@ class LoginForm extends Form {
     password: Joi.string().required().label("Password"),
   };
 
-  doSubmit = () => {
-    console.log("Submitted");
+  doSubmit = async () => {
+    const { username, password } = this.state.data;
+    this.props.submitLogin(username, password);
+    // const dispatch = useDispatch();
+    // const jwt = await fetch("http://localhost:8080/login", {
+    //   method: "post",
+    //   headers: { "content-type": "application/json" },
+    //   body: JSON.stringify({
+    //     email: username,
+    //     password: password,
+    //   }),
+    // }).then((response) => response.headers.get("Authorization"));
+
+    // const user = await fetch("http://localhost:8080/users/user", {
+    //   method: "post",
+    //   headers: {
+    //     "content-type": "application/json",
+    //     Authorization: jwt,
+    //   },
+    //   body: JSON.stringify({
+    //     email: username,
+    //   }),
+    // }).then((response) => response.json());
+
+    // console.log(user);
+    // dispatch(login());
+    // dispatch(
+    //   loadUser({
+    //     id: user.id,
+    //     firstName: user.firstName,
+    //     lastName: user.lastName,
+    //     email: user.email,
+    //     authorization: jwt,
+    //   })
+    // );
   };
 
   render() {

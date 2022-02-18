@@ -11,8 +11,11 @@ function NavBar(props) {
   const [showMenu, setSHowMenu] = useState(false);
   const refMenuButton = useRef();
   const { firstName, lastName } = useSelector((state) => state.loadUser.value);
-  const location =
-    "home" + useLocation().pathname.replace(/\//g, ">").replace(/-/g, " ");
+  let location = useLocation().pathname;
+  location =
+    location === "/home"
+      ? "home"
+      : "home" + location.replace(/\//g, ">").replace(/-/g, " ");
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {

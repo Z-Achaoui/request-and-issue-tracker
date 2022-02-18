@@ -24,7 +24,7 @@ function App() {
     if (isLoggedIn && !redirectAfterLogin) {
       setRedirectAfterLogin(true);
     }
-  });
+  }, [isLoggedIn, redirectAfterLogin]);
 
   return (
     <div className="flex flex-col h-screen items-center">

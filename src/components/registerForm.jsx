@@ -4,12 +4,13 @@ import Form from "./common/form";
 
 class RegisterForm extends Form {
   state = {
-    data: { name: "", email: "", password: "" },
+    data: { firstName: "", lastName: "", email: "", password: "" },
     errors: {},
   };
 
   schemaObject = {
-    name: Joi.string().min(3).required().label("Name"),
+    firstName: Joi.string().min(3).required().label("First Name"),
+    lastName: Joi.string().min(3).required().label("Last Name"),
     email: Joi.string().min(3).required().label("Email"),
     password: Joi.string()
       .pattern(new RegExp("^[a-zA-Z0-9]{8,30}$"))
@@ -28,7 +29,8 @@ class RegisterForm extends Form {
         className="box-border min-w-[280px] max-w-[360px] p-4 m-12 container mx-auto flex flex-col justify-start h-auto shadow-md rounded-lg"
       >
         <h1 className="mt-1 mb-6 text-center text-3xl capitalize">Sign Up</h1>
-        {this.renderInput("name", "Name")}
+        {this.renderInput("firstName", "First Name")}
+        {this.renderInput("lastName", "Last Name")}
         {this.renderInput("email", "Email", "email")}
         {this.renderInput("password", "Password", "password")}
         {this.renderButton("sign up")}
