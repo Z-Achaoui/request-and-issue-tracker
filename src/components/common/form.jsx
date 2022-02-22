@@ -1,6 +1,6 @@
 import { Component } from "react";
 import Joi from "joi";
-import Input from "./input";
+import Input from "./Input";
 
 class Form extends Component {
   state = {

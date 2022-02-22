@@ -1,6 +1,6 @@
 import React from "react";
 
-const Input = ({ name, label, type, value, error, onChange }) => {
+function Input({ name, label, type, value, error, onChange }) {
   return (
     <div className="mb-4 mx-4">
       <label
@@ -25,6 +25,6 @@ const Input = ({ name, label, type, value, error, onChange }) => {
       )}
     </div>
   );
-};
+}
 
 export default Input;

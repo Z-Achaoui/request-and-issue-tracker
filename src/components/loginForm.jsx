@@ -1,78 +1,128 @@
 import React from "react";
-import Joi from "joi";
-import Form from "./common/form";
 import { useDispatch } from "react-redux";
+import Joi from "joi";
 import { login } from "../app/loginSlice";
 import { loadUser } from "../app/userSlice";
+import { useState } from "react";
+import Button from "./common/Button";
+import Input from "./common/Input";
+import { useEffect } from "react";
+import { authenticateUser, authorizeUser } from "../services/authService";
 
-class LoginForm extends Form {
-  state = {
+function LoginForm(props) {
+  const initialState = {
     data: { username: "", password: "" },
     errors: {},
+    readyToSubmit: false,
   };
+  const [state, setState] = useState(initialState);
 
-  schemaObject = {
+  const dispatch = useDispatch();
+
+  const schemaObject = {
     username: Joi.string().required().label("Username"),
     password: Joi.string().required().label("Password"),
   };
 
-  doSubmit = async () => {
-    const { username, password } = this.state.data;
-    this.props.submitLogin(username, password);
-    // const dispatch = useDispatch();
-    // const jwt = await fetch("http://localhost:8080/login", {
-    //   method: "post",
-    //   headers: { "content-type": "application/json" },
-    //   body: JSON.stringify({
-    //     email: username,
-    //     password: password,
-    //   }),
-    // }).then((response) => response.headers.get("Authorization"));
+  useEffect(() => {
+    const controller = new AbortController();
+    if (state.readyToSubmit) doSubmit();
+    return () => controller.abort();
+  });
 
-    // const user = await fetch("http://localhost:8080/users/user", {
-    //   method: "post",
-    //   headers: {
-    //     "content-type": "application/json",
-    //     Authorization: jwt,
-    //   },
-    //   body: JSON.stringify({
-    //     email: username,
-    //   }),
-    // }).then((response) => response.json());
-
-    // console.log(user);
-    // dispatch(login());
-    // dispatch(
-    //   loadUser({
-    //     id: user.id,
-    //     firstName: user.firstName,
-    //     lastName: user.lastName,
-    //     email: user.email,
-    //     authorization: jwt,
-    //   })
-    // );
+  const validate = () => {
+    const { error } = Joi.object(schemaObject).validate(
+      { ...state.data },
+      { abortEarly: false }
+    );
+    if (!error) return null;
+    const errors = {};
+    error.details.map((item) => (errors[item.path[0]] = item.message));
+    return errors;
   };
 
-  render() {
+  const validateProperty = ({ name, value }) => {
+    const obj = { [name]: value };
+    const schema = Joi.object({ [name]: schemaObject[name] });
+    const { error } = schema.validate({ ...obj });
+    return error ? error.details[0].message : null;
+  };
+
+  const handleChange = ({ currentTarget: input }) => {
+    const errors = { ...state.errors };
+    const errorMessage = validateProperty(input);
+    if (errorMessage) errors[input.name] = errorMessage;
+    else delete errors[input.name];
+
+    const data = { ...state.data };
+    data[input.name] = input.value;
+    setState({ ...state, data, errors });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const errors = validate();
+    setState({ errors: errors || {} });
+    if (errors) return;
+    setState({ ...state, readyToSubmit: true });
+  };
+
+  const doSubmit = async () => {
+    const { username, password } = state.data;
+    try {
+      const jwt = await authenticateUser(username, password);
+      const user = await authorizeUser(username, jwt);
+      dispatch(
+        loadUser({
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          authorization: jwt,
+        })
+      );
+      dispatch(login());
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const renderButton = (label) => {
+    return <Button label={label} />;
+  };
+
+  const renderInput = (name, label, type = "text") => {
+    const { data, errors } = state;
     return (
-      <form
-        onSubmit={this.handleSubmit}
-        className="box-border min-w-[280px] max-w-[360px] p-4 m-12 container mx-auto flex flex-col justify-start h-auto shadow-md rounded-lg"
-      >
-        <h1 className="mt-1 mb-6 text-center text-3xl capitalize">Sign In</h1>
-        {this.renderInput("username", "Username")}
-        {this.renderInput("password", "Password", "password")}
-        {this.renderButton("sing in")}
-        <div className="relative mx-4 mt-3 text-xs">
-          <span className="absolute left-0">Forgot your password</span>
-          <span className="absolute right-0">Sign up</span>
-        </div>
-        <p className="mt-10 mx-4 text-xs text-center">
-          Copyright © MyWebsite 2022
-        </p>
-      </form>
+      <Input
+        name={name}
+        label={label}
+        type={type}
+        value={data[name]}
+        onChange={handleChange}
+        error={errors[name]}
+      />
     );
-  }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="box-border min-w-[280px] max-w-[360px] p-4 m-12 container mx-auto flex flex-col justify-start h-auto shadow-md rounded-lg"
+    >
+      <h1 className="mt-1 mb-6 text-center text-3xl capitalize">Sign In</h1>
+      {renderInput("username", "Username")}
+      {renderInput("password", "Password", "password")}
+      {renderButton("sing in")}
+      <div className="relative mx-4 mt-3 text-xs">
+        <span className="absolute left-0">Forgot your password</span>
+        <span className="absolute right-0">Sign up</span>
+      </div>
+      <p className="mt-10 mx-4 text-xs text-center">
+        Copyright © MyWebsite 2022
+      </p>
+    </form>
+  );
 }
 
 export default LoginForm;
