@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NavBar from "./components/common/Navbar";
 import Home from "./components/Home";
@@ -16,23 +16,24 @@ import logo from "./icons/logo.png";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.accountLogin.value);
-  const user = useSelector((state) => state.loadUser.value);
-
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn && !redirectAfterLogin) {
       setRedirectAfterLogin(true);
+      navigate("/home", { replace: true });
     }
-  }, [isLoggedIn, redirectAfterLogin]);
+    if (!isLoggedIn) {
+      setRedirectAfterLogin(false);
+    }
+  }, [isLoggedIn, redirectAfterLogin, navigate]);
 
   return (
     <div className="flex flex-col h-screen items-center">
       {isLoggedIn ? (
         <Fragment>
-          {console.log("home ", user)}
           <NavBar logoLink={logo} />
-          {!redirectAfterLogin && <Navigate to="/home" replace={true} />}
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/requests" element={<Requests />} />
@@ -48,7 +49,6 @@ function App() {
         </Fragment>
       ) : (
         <Routes>
-          {console.log("landing page ", user)}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />

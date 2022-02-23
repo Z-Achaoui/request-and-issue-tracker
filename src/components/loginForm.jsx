@@ -7,7 +7,7 @@ import { useState } from "react";
 import Button from "./common/Button";
 import Input from "./common/Input";
 import { useEffect } from "react";
-import { authenticateUser, authorizeUser } from "../services/authService";
+import { loginUser } from "../services/authService";
 
 function LoginForm(props) {
   const initialState = {
@@ -70,8 +70,7 @@ function LoginForm(props) {
   const doSubmit = async () => {
     const { username, password } = state.data;
     try {
-      const jwt = await authenticateUser(username, password);
-      const user = await authorizeUser(username, jwt);
+      const [user, jwt] = await loginUser(username, password);
       dispatch(
         loadUser({
           id: user.id,

@@ -3,42 +3,30 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../app/loginSlice";
 import { loadUser } from "../app/userSlice";
+import { loginUser } from ".././services/authService";
 
 function LandingPage(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleTourAccountLogin = async () => {
-    const jwt = await fetch("http://localhost:8080/login", {
-      method: "post",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        email: "tourguide@example.com",
-        password: "123456789",
-      }),
-    }).then((response) => response.headers.get("Authorization"));
-
-    const user = await fetch("http://localhost:8080/users/user", {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-        Authorization: jwt,
-      },
-      body: JSON.stringify({
-        email: "tourguide@example.com",
-      }),
-    }).then((response) => response.json());
-
-    dispatch(login());
-    dispatch(
-      loadUser({
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        authorization: jwt,
-      })
-    );
+    const username = "tourguide@example.com";
+    const password = "123456789";
+    try {
+      const [user, jwt] = await loginUser(username, password);
+      dispatch(
+        loadUser({
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          authorization: jwt,
+        })
+      );
+      dispatch(login());
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

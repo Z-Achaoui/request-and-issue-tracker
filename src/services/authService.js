@@ -1,5 +1,11 @@
-export function authenticateUser(username, password) {
-  return fetch("http://localhost:8080/login", {
+export async function loginUser(username, password) {
+  const jwt = await authenticateUser(username, password);
+  const user = await authorizeUser(username, jwt);
+  return [user, jwt];
+}
+
+async function authenticateUser(username, password) {
+  return await fetch("http://localhost:8080/login", {
     method: "post",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
@@ -9,8 +15,8 @@ export function authenticateUser(username, password) {
   }).then((response) => response.headers.get("Authorization"));
 }
 
-export function authorizeUser(username, jwt) {
-  return fetch("http://localhost:8080/users/user", {
+async function authorizeUser(username, jwt) {
+  return await fetch("http://localhost:8080/users/user", {
     method: "post",
     headers: {
       "content-type": "application/json",

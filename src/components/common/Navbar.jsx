@@ -2,10 +2,14 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { VscMenu } from "react-icons/vsc";
 import { IoSearchOutline } from "react-icons/io5";
+import { IoMdLogOut } from "react-icons/io";
+
 import { navItems } from "./navItems";
-import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { loadUser } from "../../app/userSlice";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { resetUser } from "../../app/userSlice";
+import { logout } from "../../app/loginSlice";
+import { logoutUser } from "../../services/logoutService";
 
 function NavBar(props) {
   const [showMenu, setSHowMenu] = useState(false);
@@ -16,6 +20,16 @@ function NavBar(props) {
     location === "/home"
       ? "home"
       : "home" + location.replace(/\//g, ">").replace(/-/g, " ");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logoutUser();
+    dispatch(resetUser());
+    dispatch(logout());
+    navigate("/", { replace: true });
+  };
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -54,7 +68,10 @@ function NavBar(props) {
             </div>
           ))}
           <div className="min-w-[7rem] py-1 text-center text-base italic underline hover:bg-cyan-500/25">
-            <Link to="/home">{`@${firstName} ${lastName}`}</Link>
+            <Link to="/home">{`@${firstName}`}</Link>
+          </div>
+          <div className="w-fit px-4 py-1 text-xl cursor-pointer hover:bg-cyan-500/25">
+            <IoMdLogOut onClick={handleLogout} />
           </div>
         </nav>
         <button
