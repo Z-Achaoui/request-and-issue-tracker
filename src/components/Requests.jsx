@@ -1,12 +1,10 @@
-import React, { Fragment, useState } from "react";
-import newRequest from "../icons/newRequestIcon1.png";
-import pendingRequest from "../icons/pendingRequestsIcon1.png";
-import completedRequest from "../icons/completedRequestsIcon1.png";
-import {
-  getPendingRequests,
-  getCompletedRequests,
-} from "../services/requestService";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import newRequestIcon1 from "../icons/newRequestIcon1.png";
+import pendingRequestsIcon1 from "../icons/pendingRequestsIcon1.png";
+import completedRequestsIcon1 from "../icons/completedRequestsIcon1.png";
+import { getUserRequests } from "../services/requestService";
 import Pagination from "./common/Pagination";
 import { paginate } from "../utils/paginate";
 
@@ -15,20 +13,40 @@ function Requests(props) {
     useState(1);
   const [completedRequestsCurrentPage, setCompletedRequestsCurrentPage] =
     useState(1);
+  const { id, authorization } = useSelector((state) => state.loadUser.value);
+  const [allPendingRequests, setAllPendingRequests] = useState([]);
+  const [allCompletedRequests, setAllCompletedRequests] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [completedRequests, setCompletedRequests] = useState([]);
+  const pageSize = 5;
 
-  const pageSize = 2;
-  const allPendingRequests = getPendingRequests();
-  const pendingRequests = paginate(
-    allPendingRequests,
-    pendingRequestsCurrentPage,
-    pageSize
-  );
-  const allCompletedRequests = getCompletedRequests();
-  const completedRequests = paginate(
-    allCompletedRequests,
-    completedRequestsCurrentPage,
-    pageSize
-  );
+  useEffect(() => {
+    if (!allPendingRequests.length && !allCompletedRequests.length)
+      getRequests();
+  });
+  useEffect(() => {
+    if (!pendingRequests.length && !completedRequests.length) {
+      setPendingRequests(
+        paginate(allPendingRequests, pendingRequestsCurrentPage, pageSize)
+      );
+      setCompletedRequests(
+        paginate(allCompletedRequests, completedRequestsCurrentPage, pageSize)
+      );
+    }
+  });
+
+  const getRequests = async () => {
+    try {
+      const [pendingReq, completedReq] = await getUserRequests(
+        id,
+        authorization
+      );
+      setAllPendingRequests(pendingReq);
+      setAllCompletedRequests(completedReq);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const renderRequests = (badge, title, requests) => {
     return (
@@ -68,7 +86,7 @@ function Requests(props) {
                     {item.requester}
                   </td>
                   <td className="pl-4 py-2 border bg-gray-100">
-                    {item.completed ? "Completed" : "Pending"}
+                    {item.isCompleted ? "Completed" : "Pending"}
                   </td>
                 </tr>
               ))}
@@ -88,13 +106,17 @@ function Requests(props) {
         <section className="flex flex-row place-items-center my-4 w-auto border shadow-sm rounded-md bg-cyan-50">
           <div className="inline-block border-r w-24 justify-center p-3">
             <Link to="/requests/new-request">
-              <img src={newRequest} alt="newreq" />
+              <img src={newRequestIcon1} alt="newreq" />
             </Link>
           </div>
           <span className="basis-3/4 pl-4 sm:pl-8">New request</span>
         </section>
         <section className="my-4 border shadow-sm rounded-md">
-          {renderRequests(pendingRequest, "Pending Requests", pendingRequests)}
+          {renderRequests(
+            pendingRequestsIcon1,
+            "Pending Requests",
+            pendingRequests
+          )}
           <Pagination
             itemsCount={allPendingRequests.length}
             pageSize={pageSize}
@@ -104,7 +126,7 @@ function Requests(props) {
         </section>
         <section className="my-4 border shadow-sm rounded-md">
           {renderRequests(
-            completedRequest,
+            completedRequestsIcon1,
             "Completed Requests",
             completedRequests
           )}

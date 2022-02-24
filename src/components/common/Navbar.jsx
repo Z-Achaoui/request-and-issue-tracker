@@ -14,7 +14,7 @@ import { logoutUser } from "../../services/logoutService";
 function NavBar(props) {
   const [showMenu, setSHowMenu] = useState(false);
   const refMenuButton = useRef();
-  const { firstName, lastName } = useSelector((state) => state.loadUser.value);
+  const { firstName } = useSelector((state) => state.loadUser.value);
   let location = useLocation().pathname;
   location =
     location === "/home"

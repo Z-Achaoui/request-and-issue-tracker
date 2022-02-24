@@ -1,67 +1,23 @@
-const requests = [
-  {
-    id: 1,
-    subject: "software update",
-    requester: "User",
-    created: "01/01/2022",
-    last_update: "10/01/2022",
-    completed: true,
-    completion_date: "10/01/2022",
-    body: "Need an update for sound edit software",
-  },
-  {
-    id: 2,
-    subject: "laptop replacement",
-    requester: "User",
-    created: "22/12/2022",
-    last_update: "01/01/2022",
-    completed: false,
-    completion_date: "",
-    body: "laptop went down and wouldn't restart...",
-  },
-  {
-    id: 3,
-    subject: "mouse and keyboard",
-    requester: "User",
-    created: "10/01/2022",
-    last_update: "14/01/2022",
-    completed: true,
-    completion_date: "14/01/2022",
-  },
-  {
-    id: 4,
-    subject: "software installation",
-    requester: "User",
-    created: "12/10/2021",
-    last_update: "05/01/2022",
-    completed: false,
-    completion_date: "",
-    body: "Need an intervention to install software....",
-  },
-  {
-    id: 5,
-    subject: "headphone",
-    requester: "User",
-    created: "20/07/2021",
-    last_update: "27/07/2022",
-    completed: true,
-    completion_date: "27/07/2021",
-    body: "........",
-  },
-];
+export async function getUserRequests(userId, authorization) {
+  const requests = await fetch(
+    `http://localhost:8080/user-requests/${userId}`,
+    {
+      headers: {
+        Authorization: authorization,
+      },
+    }
+  ).then((response) => response.json());
+  const pendingRequests = await requests.filter((r) => r.isCompleted === false);
+  const completedRequests = await requests.filter(
+    (r) => r.isCompleted === true
+  );
+  return [pendingRequests, completedRequests];
+}
 
 export function getRequests() {
-  return requests;
+  //return userRequests;
 }
 
 export function getRequest(id) {
-  return requests.find((r) => r.id === id);
-}
-
-export function getPendingRequests() {
-  return requests.filter((r) => r.completed === false);
-}
-
-export function getCompletedRequests() {
-  return requests.filter((r) => r.completed === true);
+  //return userRequests.find((r) => r.id === id);
 }
