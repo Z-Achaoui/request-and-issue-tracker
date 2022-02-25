@@ -73,8 +73,7 @@ function RegisterForm(props) {
   const doSubmit = async () => {
     const { firstName, lastName, email, password } = state.data;
     try {
-      const user = await registerUser(firstName, lastName, email, password);
-      console.log(user);
+      await registerUser(firstName, lastName, email, password);
       navigate("/login", { replace: true });
     } catch (err) {
       console.log(err);

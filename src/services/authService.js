@@ -1,11 +1,5 @@
 export async function loginUser(username, password) {
-  const jwt = await authenticateUser(username, password);
-  const user = await authorizeUser(username, jwt);
-  return [user, jwt];
-}
-
-async function authenticateUser(username, password) {
-  return await fetch("http://localhost:8080/login", {
+  const jwt = await fetch("http://localhost:8080/login", {
     method: "post",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
@@ -13,10 +7,8 @@ async function authenticateUser(username, password) {
       password: password,
     }),
   }).then((response) => response.headers.get("Authorization"));
-}
 
-async function authorizeUser(username, jwt) {
-  return await fetch("http://localhost:8080/users/user", {
+  const user = await fetch("http://localhost:8080/users/user", {
     method: "post",
     headers: {
       "content-type": "application/json",
@@ -26,4 +18,6 @@ async function authorizeUser(username, jwt) {
       email: username,
     }),
   }).then((response) => response.json());
+
+  return [user, jwt];
 }

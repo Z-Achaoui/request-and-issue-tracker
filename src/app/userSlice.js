@@ -7,6 +7,7 @@ const initialState = {
     lastName: "",
     email: "",
     authorization: "",
+    roles: [],
   },
 };
 

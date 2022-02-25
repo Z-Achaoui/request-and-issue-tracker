@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import newRequestIcon1 from "../icons/newRequestIcon1.png";
 import pendingRequestsIcon1 from "../icons/pendingRequestsIcon1.png";
 import completedRequestsIcon1 from "../icons/completedRequestsIcon1.png";
-import { getUserRequests } from "../services/requestService";
+import { getUserRequests, getAdminRequests } from "../services/requestService";
 import Pagination from "./common/Pagination";
 import { paginate } from "../utils/paginate";
 
@@ -13,7 +13,9 @@ function Requests(props) {
     useState(1);
   const [completedRequestsCurrentPage, setCompletedRequestsCurrentPage] =
     useState(1);
-  const { id, authorization } = useSelector((state) => state.loadUser.value);
+  const { id, authorization, roles } = useSelector(
+    (state) => state.loadUser.value
+  );
   const [allPendingRequests, setAllPendingRequests] = useState([]);
   const [allCompletedRequests, setAllCompletedRequests] = useState([]);
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -50,11 +52,20 @@ function Requests(props) {
   ]);
 
   const getRequests = async () => {
+    let [allPendingRequests, allCompletedRequests] = [[], []];
     try {
-      const [allPendingRequests, allCompletedRequests] = await getUserRequests(
-        id,
-        authorization
+      const roleNameIndex = roles.findIndex(
+        (role) => role.roleName === "ADMIN"
       );
+      roleNameIndex === -1
+        ? ([allPendingRequests, allCompletedRequests] = await getUserRequests(
+            id,
+            authorization
+          ))
+        : ([allPendingRequests, allCompletedRequests] = await getAdminRequests(
+            authorization
+          ));
+
       setAllPendingRequests(allPendingRequests);
       setAllCompletedRequests(allCompletedRequests);
     } catch (error) {

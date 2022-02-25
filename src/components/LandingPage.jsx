@@ -21,6 +21,7 @@ function LandingPage(props) {
           lastName: user.lastName,
           email: user.email,
           authorization: jwt,
+          roles: user.roles,
         })
       );
       dispatch(login());
