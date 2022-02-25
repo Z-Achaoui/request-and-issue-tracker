@@ -1,28 +1,53 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { getMessages } from "../services/messagesService";
 import { getRequest } from "../services/requestService";
-import MessageFeed from "./MessageFeed";
 import MessageInput from "./common/MessageInput";
+import MessageFeed from "./MessageFeed";
 import RequestSummary from "./RequestSummary";
 
 function RequestStatus(props) {
-  const requestId = 1;
-  const messages = getMessages(requestId);
-  const request = getRequest(requestId);
+  const [request, setRequest] = useState({});
+  const [messages, setMessages] = useState([]);
+  const { requestId } = useLocation().state;
+
+  const { authorization } = useSelector((state) => state.loadUser.value);
+
+  useEffect(() => {
+    if (!request.hasOwnProperty("id")) {
+      getUserRequest();
+    }
+  }, [request]);
+
+  useEffect(() => {
+    if (!request.hasOwnProperty("id") && !messages.lengh) getRequestMessages();
+  });
+
+  const getUserRequest = async () => {
+    const request = await getRequest(requestId, authorization);
+    setRequest(request);
+  };
+
+  const getRequestMessages = async () => {
+    const messages = await getMessages(requestId, authorization);
+    setMessages(messages);
+  };
+
   return (
     <Fragment>
       <header className="flex-initial w-full min-h-fit p-4 mt-4 text-center text-2xl text-cyan-700 font-semibold italic">
         <h1>{`Request # ${request.id} : ${request.subject}`}</h1>
       </header>
-      <div className="grid grid-cols-2 grid-flow-row-dense place-items-center sm:grid-cols-3">
+      <div className="w-full grid grid-cols-2 grid-flow-row-dense place-items-center sm:grid-cols-3">
         <div className="col-span-2 w-full p-4 my-4 justify-center">
           <MessageInput
-            disabled={request.completed}
+            disabled={request.isCompleted}
             placeholder={"Write a new message..."}
           />
         </div>
         <div className="col-span-2">
-          {request.completed ? (
+          {request.isCompleted ? (
             <div className="flex flex-col items-center justify-center text-center rounded-full shadow-md bg-gray-500 h-24 w-24">
               <p className="text-sm font-semibold">Closed</p>
               <p className="text-xs italic">{request.completion_date}</p>

@@ -23,29 +23,32 @@ function Requests(props) {
   useEffect(() => {
     if (!allPendingRequests.length && !allCompletedRequests.length)
       getRequests();
-  });
+  }, [allPendingRequests, allCompletedRequests]);
+
   useEffect(() => {
-    if (!pendingRequests.length && !completedRequests.length) {
-      setPendingRequests(
-        paginate(allPendingRequests, pendingRequestsCurrentPage, pageSize)
-      );
-      setCompletedRequests(
-        paginate(allCompletedRequests, completedRequestsCurrentPage, pageSize)
-      );
-    }
-  });
+    if (!pendingRequests.length && !completedRequests.length) setRequests();
+  }, [pendingRequests, completedRequests]);
 
   const getRequests = async () => {
     try {
-      const [pendingReq, completedReq] = await getUserRequests(
+      const [allPendingRequests, allCompletedRequests] = await getUserRequests(
         id,
         authorization
       );
-      setAllPendingRequests(pendingReq);
-      setAllCompletedRequests(completedReq);
+      setAllPendingRequests(allPendingRequests);
+      setAllCompletedRequests(allCompletedRequests);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const setRequests = () => {
+    setPendingRequests(
+      paginate(allPendingRequests, pendingRequestsCurrentPage, pageSize)
+    );
+    setCompletedRequests(
+      paginate(allCompletedRequests, completedRequestsCurrentPage, pageSize)
+    );
   };
 
   const renderRequests = (badge, title, requests) => {
@@ -75,7 +78,14 @@ function Requests(props) {
             <tbody>
               {requests.map((item, index) => (
                 <tr key={index}>
-                  <td className="pl-4 py-2 border bg-gray-100">{item.id}</td>
+                  <td className="pl-4 py-2 border bg-gray-100">
+                    <Link
+                      to={"/requests/request-status"}
+                      state={{ requestId: item.id }}
+                    >
+                      {item.id}
+                    </Link>
+                  </td>
                   <td className="pl-4 py-2 border bg-gray-100">
                     {item.subject}
                   </td>

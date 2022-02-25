@@ -67,10 +67,10 @@ function NavBar(props) {
               <Link to={item.url}>{item.title}</Link>
             </div>
           ))}
-          <div className="min-w-[7rem] py-1 text-center text-base italic underline hover:bg-cyan-500/25">
+          <div className="min-w-[7rem] py-1 text-center text-base italic underline text-amber-200 hover:bg-cyan-500/25">
             <Link to="/home">{`@${firstName}`}</Link>
           </div>
-          <div className="w-fit px-4 py-1 text-xl cursor-pointer hover:bg-cyan-500/25">
+          <div className="w-fit px-4 py-1 text-2xl cursor-pointer text-red-400 hover:bg-cyan-500/25">
             <IoMdLogOut onClick={handleLogout} />
           </div>
         </nav>

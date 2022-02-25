@@ -1,14 +1,14 @@
 import React, { Fragment } from "react";
 
 function RequestSummary(props) {
-  const { id, completed, created, last_update, body } = props.request;
+  const { id, isCompleted, created, lastUpdate, body } = props.request;
   return (
     <Fragment>
       <section className="w-full">
         <span className="inline-block mb-2 font-semibold underline">
           Informations:
         </span>
-        <table className="table-auto border-collapse border w-full p-4 text-left text-sm">
+        <table className="table-auto border-collapse border w-full p-4 text-left text-xs">
           <tbody>
             <tr>
               <th className="px-2 py-2 border bg-gray-300">Number</th>
@@ -17,7 +17,7 @@ function RequestSummary(props) {
             <tr>
               <th className="px-2 py-2 border bg-gray-300">Status</th>
               <td className="px-2 py-2 border bg-gray-100 italic">
-                {completed ? "Completed" : "Pending"}
+                {isCompleted ? "Completed" : "Pending"}
               </td>
             </tr>
             <tr>
@@ -27,7 +27,7 @@ function RequestSummary(props) {
             <tr>
               <th className="px-2 py-2 border bg-gray-300">Last Update</th>
               <td className="px-2 py-2 border bg-gray-100 italic">
-                {last_update}
+                {lastUpdate}
               </td>
             </tr>
           </tbody>

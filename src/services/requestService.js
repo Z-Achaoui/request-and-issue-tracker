@@ -14,10 +14,11 @@ export async function getUserRequests(userId, authorization) {
   return [pendingRequests, completedRequests];
 }
 
-export function getRequests() {
-  //return userRequests;
-}
-
-export function getRequest(id) {
-  //return userRequests.find((r) => r.id === id);
+export async function getRequest(requestId, authorization) {
+  const request = await fetch(`http://localhost:8080/requests/${requestId}`, {
+    headers: {
+      Authorization: authorization,
+    },
+  }).then((response) => response.json());
+  return request;
 }
