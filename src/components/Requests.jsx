@@ -26,8 +26,28 @@ function Requests(props) {
   }, [allPendingRequests, allCompletedRequests]);
 
   useEffect(() => {
-    if (!pendingRequests.length && !completedRequests.length) setRequests();
-  }, [pendingRequests, completedRequests]);
+    if (!pendingRequests.length && allPendingRequests.length)
+      setPendingRequests(
+        paginate(allPendingRequests, pendingRequestsCurrentPage, pageSize)
+      );
+  }, [
+    pendingRequests,
+    allPendingRequests,
+    pendingRequestsCurrentPage,
+    pageSize,
+  ]);
+
+  useEffect(() => {
+    if (!completedRequests.length && allCompletedRequests.length)
+      setCompletedRequests(
+        paginate(allCompletedRequests, completedRequestsCurrentPage, pageSize)
+      );
+  }, [
+    completedRequests,
+    allCompletedRequests,
+    pendingRequestsCurrentPage,
+    pageSize,
+  ]);
 
   const getRequests = async () => {
     try {
@@ -40,15 +60,6 @@ function Requests(props) {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const setRequests = () => {
-    setPendingRequests(
-      paginate(allPendingRequests, pendingRequestsCurrentPage, pageSize)
-    );
-    setCompletedRequests(
-      paginate(allCompletedRequests, completedRequestsCurrentPage, pageSize)
-    );
   };
 
   const renderRequests = (badge, title, requests) => {

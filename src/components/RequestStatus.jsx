@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getMessages } from "../services/messagesService";
+import { getMessages, addMessage } from "../services/messagesService";
 import { getRequest } from "../services/requestService";
 import MessageInput from "./common/MessageInput";
 import MessageFeed from "./MessageFeed";
@@ -12,7 +12,9 @@ function RequestStatus(props) {
   const [messages, setMessages] = useState([]);
   const { requestId } = useLocation().state;
 
-  const { authorization } = useSelector((state) => state.loadUser.value);
+  const { firstName, lastName, authorization } = useSelector(
+    (state) => state.loadUser.value
+  );
 
   useEffect(() => {
     if (!request.hasOwnProperty("id")) {
@@ -25,13 +27,35 @@ function RequestStatus(props) {
   });
 
   const getUserRequest = async () => {
-    const request = await getRequest(requestId, authorization);
-    setRequest(request);
+    try {
+      const request = await getRequest(requestId, authorization);
+      setRequest(request);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getRequestMessages = async () => {
-    const messages = await getMessages(requestId, authorization);
-    setMessages(messages);
+    try {
+      const messages = await getMessages(requestId, authorization);
+      setMessages(messages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleMessageSubmit = async (message) => {
+    try {
+      const messages = await addMessage(
+        requestId,
+        authorization,
+        message,
+        firstName + " " + lastName
+      );
+      setMessages(messages);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -42,6 +66,7 @@ function RequestStatus(props) {
       <div className="w-full grid grid-cols-2 grid-flow-row-dense place-items-center sm:grid-cols-3">
         <div className="col-span-2 w-full p-4 my-4 justify-center">
           <MessageInput
+            parentHandleSubmit={handleMessageSubmit}
             disabled={request.isCompleted}
             placeholder={"Write a new message..."}
           />
@@ -50,7 +75,7 @@ function RequestStatus(props) {
           {request.isCompleted ? (
             <div className="flex flex-col items-center justify-center text-center rounded-full shadow-md bg-gray-500 h-24 w-24">
               <p className="text-sm font-semibold">Closed</p>
-              <p className="text-xs italic">{request.completion_date}</p>
+              <p className="text-xs italic">{request.completed}</p>
             </div>
           ) : null}
         </div>

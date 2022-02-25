@@ -22,3 +22,20 @@ export async function getRequest(requestId, authorization) {
   }).then((response) => response.json());
   return request;
 }
+
+export async function updateRequest(requestId, isCompleted, authorization) {
+  const request = await fetch(
+    `http://localhost:8080/requests/${requestId}/messages`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authorization,
+      },
+      body: JSON.stringify({
+        isCompleted: isCompleted,
+      }),
+    }
+  ).then((response) => response.json());
+  return request;
+}
