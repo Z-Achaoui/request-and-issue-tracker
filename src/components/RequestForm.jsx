@@ -1,9 +1,32 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addRequest } from "../services/requestService";
 import MessageInput from "./common/MessageInput";
 
 function RequestForm() {
-  const handleChange = () => {
-    return null;
+  const [subject, setSubject] = useState("");
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.loadUser.value);
+
+  const handleSubjectChange = (e) => {
+    setSubject(e.target.value);
+  };
+
+  const handleRequestSubmit = async (requestBody) => {
+    try {
+      const request = {
+        subject,
+        body: requestBody,
+        requester: user.firstName,
+        user: { id: user.id },
+      };
+      await addRequest(request, user.authorization);
+      document.getElementById("subject-input").value = "";
+      navigate("/requests");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -17,7 +40,8 @@ function RequestForm() {
             Subject
           </span>
           <input
-            onChange={handleChange}
+            id="subject-input"
+            onChange={handleSubjectChange}
             placeholder={"Subject"}
             className="mx-2 p-2 align-middle bg-white border shadow-md border-gray-300 placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-cyan-500 rounded-md text-xs focus:ring-1"
           />
@@ -26,7 +50,11 @@ function RequestForm() {
           <span className="mx-4 mt-8 mb-2 inline-block text-sm text-cyan-700 font-semibold">
             Description
           </span>
-          <MessageInput disabled={false} placeholder={"Request details"} />
+          <MessageInput
+            parentHandleSubmit={handleRequestSubmit}
+            disabled={false}
+            placeholder={"Request details"}
+          />
         </section>
       </div>
       <div className="flex-auto"></div>

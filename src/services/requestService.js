@@ -27,6 +27,17 @@ export async function getUserRequests(userId, authorization) {
   return [pendingRequests, completedRequests];
 }
 
+export async function addRequest(request, authorization) {
+  await fetch("http://localhost:8080/requests", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: authorization,
+    },
+    body: JSON.stringify(request),
+  });
+}
+
 export async function getRequest(requestId, authorization) {
   const request = await fetch(`http://localhost:8080/requests/${requestId}`, {
     headers: {

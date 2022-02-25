@@ -3,18 +3,18 @@ import { IoSendOutline, IoAttachOutline } from "react-icons/io5";
 
 function MessageInput(props) {
   const { disabled, placeholder } = props;
-  const [message, setMessage] = useState("");
+  const [data, setData] = useState("");
 
   const handleChange = (e) => {
     e.target.style.height = "inherit";
     e.target.style.height = `${e.target.scrollHeight}px`;
-    setMessage(e.target.value);
+    setData(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.parentHandleSubmit(message);
+    props.parentHandleSubmit(data);
     document.getElementById("text-area").style.height = "inherit";
-    setMessage("");
+    setData("");
   };
 
   return (
@@ -26,7 +26,7 @@ function MessageInput(props) {
           onChange={handleChange}
           wrap="hard"
           placeholder={placeholder}
-          value={message}
+          value={data}
           className="mx-2 p-2 align-middle block w-10/12 max-w-lg h-full resize-none overflow-hidden bg-white border shadow-md border-gray-300 placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-cyan-500 rounded-md text-xs focus:ring-1"
         />
         <div className="flex flex-col justify-center items-center w-[6rem]">

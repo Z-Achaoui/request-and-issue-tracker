@@ -6,7 +6,7 @@ function MessageUnit(props) {
     <Fragment>
       <div className="flex flex-row w-full">
         <div className="p-4 w-1/2 border-l">
-          {sender !== "Admin" ? (
+          {!sender.toUpperCase().includes("ADMIN") ? (
             <div className="p-4 rounded-md bg-gray-200 shadow-md">
               <span className="capitalize">
                 {date} - <b>{sender}</b> :
@@ -16,7 +16,7 @@ function MessageUnit(props) {
           ) : null}
         </div>
         <div className="p-4 w-1/2 border-r">
-          {sender === "Admin" ? (
+          {sender.toUpperCase().includes("ADMIN") ? (
             <div className="p-4 rounded-md bg-gray-200 shadow-md">
               <span className="capitalize">
                 {date} - <b>{sender}</b> :
