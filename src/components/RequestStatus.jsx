@@ -75,7 +75,7 @@ function RequestStatus(props) {
           {request.isCompleted ? (
             <div className="flex flex-col items-center justify-center text-center rounded-full shadow-md bg-gray-500 h-24 w-24">
               <p className="text-sm font-semibold">Closed</p>
-              <p className="text-xs italic">{request.completed}</p>
+              <p className="text-[10px] italic">{request.completed}</p>
             </div>
           ) : null}
         </div>
@@ -87,7 +87,7 @@ function RequestStatus(props) {
         </div>
         <div className="col-span-2 flex flex-col items-center justify-center text-center rounded-full shadow-md bg-lime-600 h-24 w-24">
           <p className="text-sm font-semibold">Started</p>
-          <p className="text-xs italic">{request.created}</p>
+          <p className="text-[10px] italic">{request.created}</p>
         </div>
       </div>
       <div className="flex-auto"></div>

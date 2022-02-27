@@ -45,10 +45,10 @@ function NavBar(props) {
 
   return (
     <Fragment>
-      <div className="fixed z-10 top-0 w-full flex flex-row justify-end items-center h-12 tracking-wider font-sans text-lg bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
+      <div className="fixed z-10 top-0 w-full flex flex-row justify-end items-center h-12 tracking-wider font-sans bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
         <div className="fixed left-2 top-0 flex flex-row items-center h-12">
           <img src={props.logoLink} alt="logo" className="h-5/6 items-center" />
-          <span className="ml-2 italic text-white font-semibold tracking-normal">
+          <span className="ml-2 italic text-white font-semibold tracking-normal text-base sm:text-lg">
             {"Request & Issue Tracker"}
           </span>
         </div>
@@ -88,7 +88,7 @@ function NavBar(props) {
         <section className="inline-block mb-4 align-middle mr-8 text-sm italic capitalize md:mb-0">
           {location}
         </section>
-        <section className="inline-block align-middle min-w-[240px] h-8 text-black bg-white border shadow-md border-gray-300 rounded-md">
+        <section className="inline-block align-middle min-w-[170px] h-8 text-black bg-white border shadow-md border-gray-300 rounded-md sm:min-w-[240px]">
           <input
             placeholder="Search..."
             className="p-2 inline-block align-middle w-5/6 h-full text-black placeholder-gray-400 focus:outline-none focus:border-none focus:ring-0 rounded-l-md text-xs"

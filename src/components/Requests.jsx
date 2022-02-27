@@ -23,33 +23,25 @@ function Requests(props) {
   const pageSize = 5;
 
   useEffect(() => {
+    const controller = new AbortController();
     if (!allPendingRequests.length && !allCompletedRequests.length)
       getRequests();
-  }, [allPendingRequests, allCompletedRequests]);
+    return () => controller.abort();
+  });
 
   useEffect(() => {
     if (!pendingRequests.length && allPendingRequests.length)
       setPendingRequests(
         paginate(allPendingRequests, pendingRequestsCurrentPage, pageSize)
       );
-  }, [
-    pendingRequests,
-    allPendingRequests,
-    pendingRequestsCurrentPage,
-    pageSize,
-  ]);
+  });
 
   useEffect(() => {
     if (!completedRequests.length && allCompletedRequests.length)
       setCompletedRequests(
         paginate(allCompletedRequests, completedRequestsCurrentPage, pageSize)
       );
-  }, [
-    completedRequests,
-    allCompletedRequests,
-    pendingRequestsCurrentPage,
-    pageSize,
-  ]);
+  });
 
   const getRequests = async () => {
     let [allPendingRequests, allCompletedRequests] = [[], []];
@@ -76,14 +68,14 @@ function Requests(props) {
   const renderRequests = (badge, title, requests) => {
     return (
       <Fragment>
-        <div className="flex flex-row place-items-center w-auto border shadow-sm rounded-t-md bg-cyan-50">
-          <div className="border-r w-24 justify-center p-3">
+        <div className="flex flex-row place-items-center text-sm w-auto border shadow-sm rounded-t-md bg-cyan-50 sm:text-base">
+          <div className="border-r w-[72px] justify-center p-3 sm:w-24">
             <img src={badge} alt="pendingreq" />
           </div>
           <span className="basis-3/4 pl-4 sm:pl-8 capitalize">{title}</span>
         </div>
         <div className="border-b shadow-sm rounded-md">
-          <table className="w-full text-center text-sm font-normal">
+          <table className="w-full text-center text-xs font-normal sm:text-sm">
             <thead>
               <tr className="capitalize">
                 <th className="pl-4 py-2 border bg-gray-300">id</th>
@@ -91,10 +83,12 @@ function Requests(props) {
                 <th className="pl-4 py-2 border bg-gray-300 hidden sm:table-cell">
                   date
                 </th>
-                <th className="pl-4 py-2 border bg-gray-300 hidden sm:table-cell">
+                <th className="pl-4 py-2 border bg-gray-300 hidden md:table-cell">
                   requester
                 </th>
-                <th className="pl-4 py-2 border bg-gray-300">status</th>
+                <th className="pl-4 py-2 border bg-gray-300 hidden md:table-cell">
+                  status
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -114,10 +108,10 @@ function Requests(props) {
                   <td className="pl-4 py-2 border bg-gray-100 hidden sm:table-cell">
                     {item.created}
                   </td>
-                  <td className="pl-4 py-2 border bg-gray-100 hidden sm:table-cell">
+                  <td className="pl-4 py-2 border bg-gray-100 hidden md:table-cell">
                     {item.requester}
                   </td>
-                  <td className="pl-4 py-2 border bg-gray-100">
+                  <td className="pl-4 py-2 border bg-gray-100 hidden md:table-cell">
                     {item.isCompleted ? "Completed" : "Pending"}
                   </td>
                 </tr>
@@ -135,8 +129,8 @@ function Requests(props) {
         <h1>Requests</h1>
       </header>
       <div className="grid grid-flow-row-dense w-3/4 text-cyan-700 font-semibold">
-        <section className="flex flex-row place-items-center my-4 w-auto border shadow-sm rounded-md bg-cyan-50">
-          <div className="inline-block border-r w-24 justify-center p-3">
+        <section className="flex flex-row place-items-center text-sm my-4 w-auto border shadow-sm rounded-md bg-cyan-50 sm:text-base">
+          <div className="inline-block border-r w-[72px] justify-center p-3 sm:w-24">
             <Link to="/requests/new-request">
               <img src={newRequestIcon1} alt="newreq" />
             </Link>

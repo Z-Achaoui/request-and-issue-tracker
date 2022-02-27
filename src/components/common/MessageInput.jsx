@@ -10,6 +10,9 @@ function MessageInput(props) {
     e.target.style.height = `${e.target.scrollHeight}px`;
     setData(e.target.value);
   };
+  const handleAttachement = () => {
+    alert("Attachements are not allowed");
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     props.parentHandleSubmit(data);
@@ -39,6 +42,7 @@ function MessageInput(props) {
             <IoSendOutline className="text-xs" />
           </button>
           <button
+            onClick={handleAttachement}
             disabled={disabled}
             className="flex flex-row justify-center items-center mx-2 p-0.5 w-full border bg-gray-500 rounded-md shadow-md outline-orange-400  hover:bg-gray-400 text-white text-xs italic"
           >

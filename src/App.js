@@ -49,7 +49,7 @@ function App() {
         </Fragment>
       ) : (
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage logoLink={logo} />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="*" element={<NoPage />} />
