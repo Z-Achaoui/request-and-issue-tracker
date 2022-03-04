@@ -33,26 +33,36 @@ function LandingPage(props) {
   return (
     <div className="flex flex-col w w-screen h-screen items-center justify-center py-14 bg-cyan-500 sm:py-24">
       <div className="h-full w-full text-green-100 bg-gradient-to-r from-sky-800 to-cyan-600 sm:grid sm:grid-flow-row sm:grid-cols-5">
-        <div className="flex flex-col h-2/3 w-full justify-center p-4 sm:col-span-3 sm:h-full">
+        <div className="flex flex-col h-1/2 w-full justify-center p-4 sm:col-span-3 sm:h-full">
           <div className="flex flex-col justify-center items-center text-3xl text-center sm:text-left sm:text-4xl sm:flex-row md:text-5xl">
             <img
               src={props.logoLink}
               alt="logo"
               className="h-28 items-center sm:h-24 md:h-32 "
             />
-            <span className="ml-2 italic font-semibold tracking-normal">
+            <h1 className="ml-2 italic font-semibold tracking-normal">
               {"Request & Issue Tracker"}
-            </span>
+            </h1>
           </div>
-          <div className="mt-12 self-center text-lg">
-            <h1>Landing page</h1>
-            <p>
-              cover view port and display options : login, register or explore
-              with example user
+          <div className="mt-12 self-center text-base sm:text-lg">
+            <p className="pb-2">
+              Welcome, to explore the site, you can go with one of the below
+              options:
             </p>
+            <ul className="px-4">
+              <li className="list-disc list-inside">
+                Sign in with your credentials
+              </li>
+              <li className="list-disc list-inside">
+                Sign up, it's quick and easy
+              </li>
+              <li className="list-disc list-inside">
+                Take a tour with the predefined user acount
+              </li>
+            </ul>
           </div>
         </div>
-        <div className="flex flex-col h-1/3 w-full justify-center items-center p-4 sm:col-span-2 sm:h-full">
+        <div className="flex flex-col h-1/2 w-full justify-center items-center p-4 sm:col-span-2 sm:h-full">
           <button
             className="w-full my-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500"
             onClick={() => navigate("/login")}
