@@ -16,18 +16,20 @@ import logo from "./icons/logo.png";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.accountLogin.value);
+  const { roles } = useSelector((state) => state.loadUser.value);
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn && !redirectAfterLogin) {
+      const role = roles.find((r) => r.roleName === "ADMIN") ? "ADMIN" : "USER";
       setRedirectAfterLogin(true);
-      navigate("/home", { replace: true });
+      navigate(`/home/${role}`, { replace: true });
     }
     if (!isLoggedIn) {
       setRedirectAfterLogin(false);
     }
-  }, [isLoggedIn, redirectAfterLogin, navigate]);
+  }, [isLoggedIn, redirectAfterLogin, navigate, roles]);
 
   return (
     <div className="flex flex-col h-screen items-center">
@@ -35,7 +37,7 @@ function App() {
         <Fragment>
           <NavBar logoLink={logo} />
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/home/:userRole" element={<Home />} />
             <Route path="/requests" element={<Requests />} />
             <Route path="/requests/new-request" element={<RequestForm />} />
             <Route

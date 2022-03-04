@@ -14,12 +14,12 @@ import { logoutUser } from "../../services/logoutService";
 function NavBar(props) {
   const [showMenu, setSHowMenu] = useState(false);
   const refMenuButton = useRef();
-  const { firstName } = useSelector((state) => state.loadUser.value);
+  const { firstName, roles } = useSelector((state) => state.loadUser.value);
+  const role = roles.find((r) => r.roleName === "ADMIN") ? "ADMIN" : "USER";
   let location = useLocation().pathname;
-  location =
-    location === "/home"
-      ? "home"
-      : "home" + location.replace(/\//g, ">").replace(/-/g, " ");
+  location = location.includes("/home")
+    ? ""
+    : "home" + location.replace(/\//g, ">").replace(/-/g, " ");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,11 +64,15 @@ function NavBar(props) {
               key={index.toString()}
               className="min-w-[7rem] py-1 text-center hover:bg-cyan-500/25"
             >
-              <Link to={item.url}>{item.title}</Link>
+              <Link
+                to={item.url === "/home" ? `${item.url}/${role}` : item.url}
+              >
+                {item.title}
+              </Link>
             </div>
           ))}
           <div className="min-w-[7rem] py-1 text-center text-base italic underline text-amber-200 hover:bg-cyan-500/25">
-            <Link to="/home">{`@${firstName}`}</Link>
+            <Link to={`/home/${role}`}>{`@${firstName}`}</Link>
           </div>
           <div className="w-fit px-4 py-1 text-2xl cursor-pointer text-red-400 hover:bg-cyan-500/25">
             <IoMdLogOut onClick={handleLogout} />
