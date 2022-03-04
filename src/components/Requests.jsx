@@ -1,12 +1,13 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import completedRequestsIcon1 from "../icons/completedRequestsIcon1.png";
 import newRequestIcon1 from "../icons/newRequestIcon1.png";
 import pendingRequestsIcon1 from "../icons/pendingRequestsIcon1.png";
-import completedRequestsIcon1 from "../icons/completedRequestsIcon1.png";
-import { getUserRequests, getAdminRequests } from "../services/requestService";
-import Pagination from "./common/Pagination";
+import { getAdminRequests, getUserRequests } from "../services/requestService";
 import { paginate } from "../utils/paginate";
+import Pagination from "./common/Pagination";
+import RequestsItems from "./RequestsItems";
 
 function Requests(props) {
   const [pendingRequestsCurrentPage, setPendingRequestsCurrentPage] =
@@ -34,14 +35,24 @@ function Requests(props) {
       setPendingRequests(
         paginate(allPendingRequests, pendingRequestsCurrentPage, pageSize)
       );
-  });
+  }, [
+    pendingRequests,
+    allPendingRequests,
+    pendingRequestsCurrentPage,
+    pageSize,
+  ]);
 
   useEffect(() => {
     if (!completedRequests.length && allCompletedRequests.length)
       setCompletedRequests(
         paginate(allCompletedRequests, completedRequestsCurrentPage, pageSize)
       );
-  });
+  }, [
+    completedRequests,
+    allCompletedRequests,
+    completedRequestsCurrentPage,
+    pageSize,
+  ]);
 
   const getRequests = async () => {
     let [allPendingRequests, allCompletedRequests] = [[], []];
@@ -65,64 +76,6 @@ function Requests(props) {
     }
   };
 
-  const renderRequests = (badge, title, requests) => {
-    return (
-      <Fragment>
-        <div className="flex flex-row place-items-center text-sm w-auto border shadow-sm rounded-t-md bg-cyan-50 sm:text-base">
-          <div className="border-r w-[72px] justify-center p-3 sm:w-24">
-            <img src={badge} alt="pendingreq" />
-          </div>
-          <span className="basis-3/4 pl-4 sm:pl-8 capitalize">{title}</span>
-        </div>
-        <div className="border-b shadow-sm rounded-md">
-          <table className="w-full text-center text-xs font-normal sm:text-sm">
-            <thead>
-              <tr className="capitalize">
-                <th className="pl-4 py-2 border bg-gray-300">id</th>
-                <th className="pl-4 py-2 border bg-gray-300">subject</th>
-                <th className="pl-4 py-2 border bg-gray-300 hidden sm:table-cell">
-                  date
-                </th>
-                <th className="pl-4 py-2 border bg-gray-300 hidden md:table-cell">
-                  requester
-                </th>
-                <th className="pl-4 py-2 border bg-gray-300 hidden md:table-cell">
-                  status
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map((item, index) => (
-                <tr key={index}>
-                  <td className="pl-4 py-2 border bg-gray-100">
-                    <Link
-                      to={"/requests/request-status"}
-                      state={{ requestId: item.id }}
-                    >
-                      {item.id}
-                    </Link>
-                  </td>
-                  <td className="pl-4 py-2 border bg-gray-100">
-                    {item.subject}
-                  </td>
-                  <td className="pl-4 py-2 border bg-gray-100 hidden sm:table-cell">
-                    {item.created}
-                  </td>
-                  <td className="pl-4 py-2 border bg-gray-100 hidden md:table-cell">
-                    {item.requester}
-                  </td>
-                  <td className="pl-4 py-2 border bg-gray-100 hidden md:table-cell">
-                    {item.isCompleted ? "Completed" : "Pending"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Fragment>
-    );
-  };
-
   return (
     <Fragment>
       <header className="flex-initial justify-center items-center w-full min-h-fit text-3xl p-8 text-cyan-700 font-semibold italic">
@@ -138,11 +91,11 @@ function Requests(props) {
           <span className="basis-3/4 pl-4 sm:pl-8">New request</span>
         </section>
         <section className="my-4 border shadow-sm rounded-md">
-          {renderRequests(
-            pendingRequestsIcon1,
-            "Pending Requests",
-            pendingRequests
-          )}
+          <RequestsItems
+            badge={pendingRequestsIcon1}
+            title={"Pending Requests"}
+            requests={pendingRequests}
+          />
           <Pagination
             itemsCount={allPendingRequests.length}
             pageSize={pageSize}
@@ -151,11 +104,11 @@ function Requests(props) {
           />
         </section>
         <section className="my-4 border shadow-sm rounded-md">
-          {renderRequests(
-            completedRequestsIcon1,
-            "Completed Requests",
-            completedRequests
-          )}
+          <RequestsItems
+            badge={completedRequestsIcon1}
+            title={"Completed Requests"}
+            requests={completedRequests}
+          />
           <Pagination
             itemsCount={allCompletedRequests.length}
             pageSize={pageSize}
