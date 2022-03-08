@@ -13,6 +13,7 @@ import Requests from "./components/Requests";
 import RequestStatus from "./components/RequestStatus";
 import Support from "./components/Support";
 import logo from "./icons/logo.png";
+import SearchResults from "./components/SearchResults";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.accountLogin.value);
@@ -46,6 +47,7 @@ function App() {
             />
             <Route path="/issues" element={<Issues />} />
             <Route path="/support" element={<Support />} />
+            <Route path="/search-results" element={<SearchResults />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
         </Fragment>

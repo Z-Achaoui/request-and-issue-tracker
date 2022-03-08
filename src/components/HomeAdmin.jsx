@@ -43,10 +43,8 @@ function HomeAdmin(props) {
   };
 
   const setCurrentPage = (target, page) => {
-    if (target === "pending") {
-      setPendingRequestsCurrentPage(page);
-      setPendingRequests([]);
-    }
+    setPendingRequestsCurrentPage(page);
+    setPendingRequests([]);
   };
 
   return (

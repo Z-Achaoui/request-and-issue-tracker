@@ -13,6 +13,7 @@ import { logoutUser } from "../../services/logoutService";
 
 function NavBar(props) {
   const [showMenu, setSHowMenu] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
   const refMenuButton = useRef();
   const { firstName, roles } = useSelector((state) => state.loadUser.value);
   const role = roles.find((r) => r.roleName === "ADMIN") ? "ADMIN" : "USER";
@@ -42,6 +43,10 @@ function NavBar(props) {
       document.removeEventListener("mouseup", checkIfClickedOutside);
     };
   });
+
+  const handleInputChange = (e) => {
+    setSearchInput(e.currentTarget.value);
+  };
 
   return (
     <Fragment>
@@ -94,13 +99,18 @@ function NavBar(props) {
         </section>
         <section className="inline-block align-middle min-w-[170px] h-8 text-black bg-white border shadow-md border-gray-300 rounded-md sm:min-w-[240px]">
           <input
+            id="search-input"
+            onChange={handleInputChange}
             placeholder="Search..."
             className="p-2 inline-block align-middle w-5/6 h-full text-black placeholder-gray-400 focus:outline-none focus:border-none focus:ring-0 rounded-l-md text-xs"
           />
-          <IoSearchOutline
-            onClick={() => console.log("clicked")}
+          <Link
+            to={"/search-results"}
+            state={{ searchInput }}
             className="inline-block align-middle w-1/6 h-full p-1.5 stroke-gray-500 hover:cursor-pointer"
-          />
+          >
+            <IoSearchOutline />
+          </Link>
         </section>
       </div>
       <div className="mt-36 md:mt-24"></div>
