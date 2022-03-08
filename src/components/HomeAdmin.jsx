@@ -12,7 +12,7 @@ function HomeAdmin(props) {
   const { authorization } = useSelector((state) => state.loadUser.value);
   const [allPendingRequests, setAllPendingRequests] = useState([]);
   const [pendingRequests, setPendingRequests] = useState([]);
-  const pageSize = 10;
+  const pageSize = 3;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -42,6 +42,13 @@ function HomeAdmin(props) {
     }
   };
 
+  const setCurrentPage = (target, page) => {
+    if (target === "pending") {
+      setPendingRequestsCurrentPage(page);
+      setPendingRequests([]);
+    }
+  };
+
   return (
     <Fragment>
       <h2 className="self-start text-2xl mx-4 mb-2 text-cyan-700 font-semibold italic md:mt-8">
@@ -58,7 +65,8 @@ function HomeAdmin(props) {
             itemsCount={allPendingRequests.length}
             pageSize={pageSize}
             currentPage={pendingRequestsCurrentPage}
-            onPageChange={setPendingRequestsCurrentPage}
+            onPageChange={setCurrentPage}
+            target={"pending"}
           />
         </section>
       </div>

@@ -76,6 +76,17 @@ function Requests(props) {
     }
   };
 
+  const setCurrentPage = (target, page) => {
+    if (target === "pending") {
+      setPendingRequestsCurrentPage(page);
+      setPendingRequests([]);
+    }
+    if (target === "completed") {
+      setCompletedRequestsCurrentPage(page);
+      setCompletedRequests([]);
+    }
+  };
+
   return (
     <Fragment>
       <header className="flex-initial justify-center items-center w-full min-h-fit text-3xl p-8 text-cyan-700 font-semibold italic">
@@ -100,7 +111,8 @@ function Requests(props) {
             itemsCount={allPendingRequests.length}
             pageSize={pageSize}
             currentPage={pendingRequestsCurrentPage}
-            onPageChange={setPendingRequestsCurrentPage}
+            onPageChange={setCurrentPage}
+            target={"pending"}
           />
         </section>
         <section className="my-4 border shadow-sm rounded-md">
@@ -113,7 +125,8 @@ function Requests(props) {
             itemsCount={allCompletedRequests.length}
             pageSize={pageSize}
             currentPage={completedRequestsCurrentPage}
-            onPageChange={setCompletedRequestsCurrentPage}
+            onPageChange={setCurrentPage}
+            target={"completed"}
           />
         </section>
       </div>

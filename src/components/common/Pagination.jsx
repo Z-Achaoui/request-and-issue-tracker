@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 
 function Pagination(props) {
-  const { itemsCount, pageSize, currentPage, onPageChange } = props;
+  const { itemsCount, pageSize, currentPage, onPageChange, target } = props;
   const pagesCount = Math.ceil(itemsCount / pageSize);
   if (pagesCount === 1) return null;
 
@@ -18,12 +18,12 @@ function Pagination(props) {
             (currentPage === page ? "bg-sky-300" : "")
           }
         >
-          <a
-            onClick={() => onPageChange(page)}
+          <button
+            onClick={() => onPageChange(target, page)}
             className="cursor-pointer w-full"
           >
             {page}
-          </a>
+          </button>
         </li>
       ))}
     </ul>
