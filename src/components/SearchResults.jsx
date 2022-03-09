@@ -8,7 +8,8 @@ import Pagination from "./common/Pagination";
 import RequestsItems from "./RequestsItems";
 
 function SearchResults(props) {
-  const { searchInput } = useLocation().state;
+  const { state } = useLocation();
+  const [searchInput, setSearchInput] = useState(state);
   const [currentPage, setCurrentPage] = useState(1);
   const { id, authorization, roles } = useSelector(
     (state) => state.loadUser.value
@@ -16,7 +17,7 @@ function SearchResults(props) {
   const [allRequests, setAllRequests] = useState([]);
   const [allFilteredRequests, setAllFilteredRequests] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
-  const pageSize = 5;
+  const pageSize = 10;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -25,13 +26,23 @@ function SearchResults(props) {
   });
 
   useEffect(() => {
-    if (!filteredRequests.length && allFilteredRequests.length)
+    if (!filteredRequests.length && allFilteredRequests.length) {
       setFilteredRequests(paginate(allFilteredRequests, currentPage, pageSize));
-  }, [filteredRequests, allFilteredRequests, currentPage, pageSize]);
+      setSearchInput(state);
+    }
+  }, [filteredRequests, allFilteredRequests, currentPage, pageSize, state]);
 
   useEffect(() => {
     document.getElementById("search-input").value = "";
-  }, [searchInput]);
+    if (state && state !== searchInput) {
+      setAllFilteredRequests(
+        allRequests.filter((r) =>
+          r.subject.toUpperCase().includes(state.toUpperCase())
+        )
+      );
+      setFilteredRequests([]);
+    }
+  }, [state, searchInput, allRequests]);
 
   const getRequests = async () => {
     let [allPendingRequests, allCompletedRequests] = [[], []];
@@ -50,22 +61,13 @@ function SearchResults(props) {
       setAllRequests([allPendingRequests, allCompletedRequests].flat());
       setAllFilteredRequests(
         allRequests.filter((r) =>
-          r.subject.toUpperCase().includes(searchInput.toUpperCase())
+          r.subject.toUpperCase().includes(state.toUpperCase())
         )
       );
     } catch (error) {
       console.log(error);
     }
   };
-
-  //   const updateFilteredRequests = () => {
-  //     setAllFilteredRequests(
-  //       allRequests.filter((r) =>
-  //         r.subject.toUpperCase().includes(searchInput.toUpperCase())
-  //       )
-  //     );
-  //     setFilteredRequests(paginate(allFilteredRequests, currentPage, pageSize));
-  //   };
 
   const handleSelectedtPage = (target, page) => {
     setCurrentPage(page);
@@ -83,7 +85,6 @@ function SearchResults(props) {
             badge={searchIcon1}
             title={`Search Results for: "${searchInput}"`}
             requests={filteredRequests}
-            searchInput={searchInput}
           />
           <Pagination
             itemsCount={allFilteredRequests.length}

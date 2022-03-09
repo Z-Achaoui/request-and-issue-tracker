@@ -76,7 +76,7 @@ function Requests(props) {
     }
   };
 
-  const setCurrentPage = (target, page) => {
+  const handleSelectedPage = (target, page) => {
     if (target === "pending") {
       setPendingRequestsCurrentPage(page);
       setPendingRequests([]);
@@ -111,7 +111,7 @@ function Requests(props) {
             itemsCount={allPendingRequests.length}
             pageSize={pageSize}
             currentPage={pendingRequestsCurrentPage}
-            onPageChange={setCurrentPage}
+            onPageChange={handleSelectedPage}
             target={"pending"}
           />
         </section>
@@ -125,7 +125,7 @@ function Requests(props) {
             itemsCount={allCompletedRequests.length}
             pageSize={pageSize}
             currentPage={completedRequestsCurrentPage}
-            onPageChange={setCurrentPage}
+            onPageChange={handleSelectedPage}
             target={"completed"}
           />
         </section>

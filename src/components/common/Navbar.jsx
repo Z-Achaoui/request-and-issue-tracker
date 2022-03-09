@@ -48,6 +48,11 @@ function NavBar(props) {
     setSearchInput(e.currentTarget.value);
   };
 
+  const handleSearch = () => {
+    navigate("/search-results", { state: searchInput });
+    setSearchInput("");
+  };
+
   return (
     <Fragment>
       <div className="fixed z-50 top-0 w-full flex flex-row justify-end items-center h-12 tracking-wider font-sans bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
@@ -104,13 +109,12 @@ function NavBar(props) {
             placeholder="Search..."
             className="p-2 inline-block align-middle w-5/6 h-full text-black placeholder-gray-400 focus:outline-none focus:border-none focus:ring-0 rounded-l-md text-xs"
           />
-          <Link
-            to={"/search-results"}
-            state={{ searchInput }}
+          <button
+            onClick={handleSearch}
             className="inline-block align-middle w-1/6 h-full p-1.5 stroke-gray-500 hover:cursor-pointer"
           >
             <IoSearchOutline />
-          </Link>
+          </button>
         </section>
       </div>
       <div className="mt-36 md:mt-24"></div>
