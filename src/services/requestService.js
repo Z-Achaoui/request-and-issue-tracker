@@ -1,18 +1,25 @@
 export async function getAdminRequests(authorization) {
-  const requests = await fetch("http://localhost:8080/admin-requests", {
+  const response = await fetch("http://localhost:8080/admin-requests", {
     headers: {
       Authorization: authorization,
     },
   }).then((response) => response.json());
-  const pendingRequests = await requests.filter((r) => r.isCompleted === false);
-  const completedRequests = await requests.filter(
+
+  if (
+    response.hasOwnProperty("errorMessage") &&
+    response["errorMessage"].toUpperCase().includes("EXPIRED")
+  ) {
+    return "session expired";
+  }
+  const pendingRequests = await response.filter((r) => r.isCompleted === false);
+  const completedRequests = await response.filter(
     (r) => r.isCompleted === true
   );
   return [pendingRequests, completedRequests];
 }
 
 export async function getUserRequests(userId, authorization) {
-  const requests = await fetch(
+  const response = await fetch(
     `http://localhost:8080/user-requests/${userId}`,
     {
       headers: {
@@ -20,35 +27,56 @@ export async function getUserRequests(userId, authorization) {
       },
     }
   ).then((response) => response.json());
-  const pendingRequests = await requests.filter((r) => r.isCompleted === false);
-  const completedRequests = await requests.filter(
+
+  if (
+    response.hasOwnProperty("errorMessage") &&
+    response["errorMessage"].toUpperCase().includes("EXPIRED")
+  ) {
+    return "session expired";
+  }
+  const pendingRequests = await response.filter((r) => r.isCompleted === false);
+  const completedRequests = await response.filter(
     (r) => r.isCompleted === true
   );
   return [pendingRequests, completedRequests];
 }
 
 export async function addRequest(request, authorization) {
-  await fetch("http://localhost:8080/requests", {
+  const response = await fetch("http://localhost:8080/requests", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: authorization,
     },
     body: JSON.stringify(request),
-  });
+  }).then((response) => response.json());
+
+  if (
+    response.hasOwnProperty("errorMessage") &&
+    response["errorMessage"].toUpperCase().includes("EXPIRED")
+  ) {
+    return "session expired";
+  }
 }
 
 export async function getRequest(requestId, authorization) {
-  const request = await fetch(`http://localhost:8080/requests/${requestId}`, {
+  const response = await fetch(`http://localhost:8080/requests/${requestId}`, {
     headers: {
       Authorization: authorization,
     },
   }).then((response) => response.json());
-  return request;
+
+  if (
+    response.hasOwnProperty("errorMessage") &&
+    response["errorMessage"].toUpperCase().includes("EXPIRED")
+  ) {
+    return "session expired";
+  }
+  return response;
 }
 
 export async function updateRequest(requestId, isCompleted, authorization) {
-  const request = await fetch(
+  const response = await fetch(
     `http://localhost:8080/requests/${requestId}/messages`,
     {
       method: "POST",
@@ -61,5 +89,12 @@ export async function updateRequest(requestId, isCompleted, authorization) {
       }),
     }
   ).then((response) => response.json());
-  return request;
+
+  if (
+    response.hasOwnProperty("errorMessage") &&
+    response["errorMessage"].toUpperCase().includes("EXPIRED")
+  ) {
+    return "session expired";
+  }
+  return response;
 }

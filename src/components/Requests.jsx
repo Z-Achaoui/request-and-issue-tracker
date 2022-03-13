@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../app/loginSlice";
+import { resetUser } from "../app/userSlice";
 import completedRequestsIcon1 from "../icons/completedRequestsIcon1.png";
 import newRequestIcon1 from "../icons/newRequestIcon1.png";
 import pendingRequestsIcon1 from "../icons/pendingRequestsIcon1.png";
@@ -22,11 +24,15 @@ function Requests(props) {
   const [pendingRequests, setPendingRequests] = useState([]);
   const [completedRequests, setCompletedRequests] = useState([]);
   const pageSize = 5;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const controller = new AbortController();
-    if (!allPendingRequests.length && !allCompletedRequests.length)
+    if (!allPendingRequests.length && !allCompletedRequests.length) {
       getRequests();
+    }
+
     return () => controller.abort();
   });
 
@@ -55,22 +61,25 @@ function Requests(props) {
   ]);
 
   const getRequests = async () => {
-    let [allPendingRequests, allCompletedRequests] = [[], []];
+    let response = "";
     try {
       const roleNameIndex = roles.findIndex(
         (role) => role.roleName === "ADMIN"
       );
-      roleNameIndex === -1
-        ? ([allPendingRequests, allCompletedRequests] = await getUserRequests(
-            id,
-            authorization
-          ))
-        : ([allPendingRequests, allCompletedRequests] = await getAdminRequests(
-            authorization
-          ));
 
-      setAllPendingRequests(allPendingRequests);
-      setAllCompletedRequests(allCompletedRequests);
+      roleNameIndex === -1
+        ? (response = await getUserRequests(id, authorization))
+        : (response = await getAdminRequests(authorization));
+
+      if (response === "session expired") {
+        alert("session expired");
+        dispatch(logout());
+        dispatch(resetUser());
+        navigate("/");
+      } else {
+        setAllPendingRequests(response[0]);
+        setAllCompletedRequests(response[1]);
+      }
     } catch (error) {
       console.log(error);
     }

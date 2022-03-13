@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NavBar from "./components/common/Navbar";
+import Modal from "./components/common/Modal";
 import Home from "./components/Home";
 import Issues from "./components/Issues";
 import LandingPage from "./components/LandingPage";
@@ -37,6 +38,7 @@ function App() {
       {isLoggedIn ? (
         <Fragment>
           <NavBar logoLink={logo} />
+          <Modal showModal={false} />
           <Routes>
             <Route path="/home/:userRole" element={<Home />} />
             <Route path="/requests" element={<Requests />} />
