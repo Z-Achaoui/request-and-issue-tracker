@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { getMessages, addMessage } from "../services/messagesService";
-import { getRequest } from "../services/requestService";
+import { closeRequest, getRequest } from "../services/requestService";
 import MessageInput from "./common/MessageInput";
 import MessageFeed from "./MessageFeed";
 import RequestSummary from "./RequestSummary";
@@ -12,7 +12,7 @@ function RequestStatus(props) {
   const [messages, setMessages] = useState([]);
   const { requestId } = useLocation().state;
 
-  const { firstName, lastName, authorization } = useSelector(
+  const { firstName, lastName, authorization, roles } = useSelector(
     (state) => state.loadUser.value
   );
 
@@ -58,6 +58,14 @@ function RequestStatus(props) {
     }
   };
 
+  const handleCloseRequest = async () => {
+    try {
+      await closeRequest(requestId, authorization);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Fragment>
       <header className="flex-initial w-full min-h-fit p-4 mt-4 text-center text-2xl text-cyan-700 font-semibold italic">
@@ -80,6 +88,15 @@ function RequestStatus(props) {
           ) : null}
         </div>
         <div className="row-start-5 col-span-2 flex flex-col w-full h-full p-4 my-4 sm:border-l text-sm items-center justify-start sm:col-start-3 sm:row-start-1 sm:row-end-5">
+          {roles.find((r) => r.roleName === "ADMIN") && (
+            <button
+              className="rounded-md shadow-md bg-red-500 outline-1 outline-red-600 px-2 py-1 italic self-end text-xs text-lime-500"
+              onClick={handleCloseRequest}
+              disabled={request.isCompleted}
+            >
+              Close Request
+            </button>
+          )}
           <RequestSummary request={request} />
         </div>
         <div className="col-span-2 flex flex-col place-items-center w-full my-4 text-justify break-words text-xs text-black">
