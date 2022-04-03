@@ -31,20 +31,20 @@ function LandingPage(props) {
   };
 
   return (
-    <div className="flex flex-col w w-screen h-screen items-center justify-center py-14 bg-cyan-500 sm:py-24">
+    <div className="flex flex-col min-w-[280px] w-screen h-screen items-center justify-center py-8 bg-cyan-500 sm:py-24">
       <div className="h-full w-full text-green-100 bg-gradient-to-r from-sky-800 to-cyan-600 sm:grid sm:grid-flow-row sm:grid-cols-5">
-        <div className="flex flex-col h-1/2 w-full justify-center p-4 sm:col-span-3 sm:h-full">
+        <div className="flex flex-col w-full justify-center p-2 sm:p-4 sm:col-span-3 sm:h-full">
           <div className="flex flex-col justify-center items-center text-3xl text-center sm:text-left sm:text-4xl sm:flex-row md:text-5xl">
             <img
               src={props.logoLink}
               alt="logo"
-              className="h-28 items-center sm:h-24 md:h-32 "
+              className="h-20 items-center sm:h-24 md:h-32 "
             />
             <h1 className="ml-2 italic font-semibold tracking-normal">
               {"Request & Issue Tracker"}
             </h1>
           </div>
-          <div className="mt-12 self-center text-base sm:text-lg">
+          <div className="mt-4 md:mt-12 self-center text-base sm:text-lg">
             <p className="pb-2">
               Welcome, to explore the site, you can go with one of the below
               options:
@@ -62,21 +62,21 @@ function LandingPage(props) {
             </ul>
           </div>
         </div>
-        <div className="flex flex-col h-1/2 w-full justify-center items-center p-4 sm:col-span-2 sm:h-full">
+        <div className="flex flex-col h-1/3 w-full justify-center items-center p-2 sm:p-4 sm:col-span-2 sm:h-full">
           <button
-            className="w-full my-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500"
+            className="w-full my-2 sm:my-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500"
             onClick={() => navigate("/login")}
           >
             Sign In
           </button>
           <button
-            className="w-full my-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500"
+            className="w-full my-2 sm:my-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500"
             onClick={() => navigate("/register")}
           >
             Sign Up
           </button>
           <button
-            className="w-full my-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500"
+            className="w-full my-2 sm:my-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500"
             onClick={handleTourAccountLogin}
           >
             Predefined User Account
