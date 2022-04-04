@@ -20,9 +20,12 @@ function RegisterForm(props) {
   const schemaObject = {
     firstName: Joi.string().min(3).required().label("First Name"),
     lastName: Joi.string().min(3).required().label("Last Name"),
-    email: Joi.string().min(3).required().label("Email"),
+    email: Joi.string()
+      .email({ tlds: { allow: false } })
+      .label("Email"),
     password: Joi.string()
       .pattern(new RegExp("^[a-zA-Z0-9]{8,30}$"))
+      .message(`"Password" must be at least 3 alphanumeric characters`)
       .required()
       .label("Password"),
   };
@@ -103,7 +106,7 @@ function RegisterForm(props) {
       onSubmit={handleSubmit}
       className="box-border min-w-[280px] max-w-[360px] p-4 m-12 container mx-auto flex flex-col justify-start h-auto shadow-md rounded-lg"
     >
-      <h1 className="mt-1 mb-6 text-center text-3xl capitalize">Sign In</h1>
+      <h1 className="mt-1 mb-6 text-center text-3xl capitalize">Sign Up</h1>
       {renderInput("firstName", "First Name")}
       {renderInput("lastName", "Last Name")}
       {renderInput("email", "Email", "email")}
