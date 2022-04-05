@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import React, { Fragment } from "react";
+import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NavBar from "./components/common/Navbar";
 import Modal from "./components/common/Modal";
@@ -18,20 +18,6 @@ import SearchResults from "./components/SearchResults";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.accountLogin.value);
-  const { roles } = useSelector((state) => state.loadUser.value);
-  const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLoggedIn && !redirectAfterLogin) {
-      const role = roles.find((r) => r.roleName === "ADMIN") ? "ADMIN" : "USER";
-      setRedirectAfterLogin(true);
-      navigate(`/home/${role}`, { replace: true });
-    }
-    if (!isLoggedIn) {
-      setRedirectAfterLogin(false);
-    }
-  }, [isLoggedIn, redirectAfterLogin, navigate, roles]);
 
   return (
     <div className="flex flex-col h-screen items-center">
@@ -40,7 +26,7 @@ function App() {
           <NavBar logoLink={logo} />
           <Modal showModal={false} />
           <Routes>
-            <Route path="/home/:userRole" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/requests" element={<Requests />} />
             <Route path="/requests/new-request" element={<RequestForm />} />
             <Route

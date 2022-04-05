@@ -25,6 +25,7 @@ function LandingPage(props) {
         })
       );
       dispatch(login());
+      navigate(`/home`, { replace: true });
     } catch (err) {
       console.log(err);
     }

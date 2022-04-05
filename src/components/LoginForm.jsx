@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Joi from "joi";
 import { login } from "../app/loginSlice";
 import { loadUser } from "../app/userSlice";
 import { useState } from "react";
 import Button from "./common/Button";
 import Input from "./common/Input";
-import { useEffect } from "react";
 import { loginUser } from "../services/authService";
 
 function LoginForm(props) {
@@ -18,6 +18,7 @@ function LoginForm(props) {
   const [state, setState] = useState(initialState);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const schemaObject = {
     username: Joi.string().required().label("Username"),
@@ -82,6 +83,7 @@ function LoginForm(props) {
         })
       );
       dispatch(login());
+      navigate(`/home`, { replace: true });
     } catch (err) {
       console.log(err);
     }

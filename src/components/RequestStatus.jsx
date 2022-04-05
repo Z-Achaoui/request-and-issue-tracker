@@ -24,7 +24,7 @@ function RequestStatus(props) {
 
   useEffect(() => {
     if (!request.hasOwnProperty("id") && !messages.lengh) getRequestMessages();
-  });
+  }, [request, messages]);
 
   const getUserRequest = async () => {
     try {
@@ -90,7 +90,7 @@ function RequestStatus(props) {
         <div className="row-start-5 col-span-2 flex flex-col w-full h-full p-4 my-4 sm:border-l text-sm items-center justify-start sm:col-start-3 sm:row-start-1 sm:row-end-5">
           {roles.find((r) => r.roleName === "ADMIN") && (
             <button
-              className="rounded-md shadow-md bg-red-500 outline-1 outline-red-600 px-2 py-1 italic self-end text-xs text-lime-500"
+              className="rounded-md shadow-md bg-red-500 outline-1 outline-red-600 px-2 py-1 italic self-end text-xs text-lime-300"
               onClick={handleCloseRequest}
               disabled={request.isCompleted}
             >

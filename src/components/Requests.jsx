@@ -29,12 +29,10 @@ function Requests(props) {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (!allPendingRequests.length && !allCompletedRequests.length) {
-      getRequests();
-    }
+    getRequests();
 
     return () => controller.abort();
-  });
+  }, []);
 
   useEffect(() => {
     if (!pendingRequests.length && allPendingRequests.length)
