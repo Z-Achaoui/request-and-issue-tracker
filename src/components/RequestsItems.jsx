@@ -39,15 +39,37 @@ function RequestsItems(props) {
                     {item.id}
                   </Link>
                 </td>
-                <td className="pl-4 py-2 border bg-gray-100">{item.subject}</td>
+                <td className="pl-4 py-2 border bg-gray-100">
+                  <Link
+                    to={"/requests/request-status"}
+                    state={{ requestId: item.id }}
+                  >
+                    {item.subject}
+                  </Link>
+                </td>
                 <td className="pl-4 py-2 border bg-gray-100 hidden sm:table-cell">
-                  {item.created}
+                  <Link
+                    to={"/requests/request-status"}
+                    state={{ requestId: item.id }}
+                  >
+                    {item.created}
+                  </Link>
                 </td>
                 <td className="pl-4 py-2 border bg-gray-100 hidden md:table-cell">
-                  {item.requester}
+                  <Link
+                    to={"/requests/request-status"}
+                    state={{ requestId: item.id }}
+                  >
+                    {item.requester}
+                  </Link>
                 </td>
                 <td className="pl-4 py-2 border bg-gray-100 hidden md:table-cell">
-                  {item.isCompleted ? "Completed" : "Pending"}
+                  <Link
+                    to={"/requests/request-status"}
+                    state={{ requestId: item.id }}
+                  >
+                    {item.isCompleted ? "Completed" : "Pending"}
+                  </Link>
                 </td>
               </tr>
             ))}

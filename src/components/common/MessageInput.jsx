@@ -15,9 +15,11 @@ function MessageInput(props) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.parentHandleSubmit(data);
-    document.getElementById("text-area").style.height = "inherit";
-    setData("");
+    if (data !== "") {
+      props.parentHandleSubmit(data);
+      document.getElementById("text-area").style.height = "inherit";
+      setData("");
+    }
   };
 
   return (

@@ -33,15 +33,15 @@ function RequestStatus(props) {
 
   const getUserRequest = async () => {
     try {
-      const request = await getRequest(requestId, authorization);
+      const response = await getRequest(requestId, authorization);
 
-      if (request === "session expired") {
+      if (response === "session expired") {
         alert("session expired, you'll be redirected");
         dispatch(logout());
         dispatch(resetUser());
         navigate("/");
       } else {
-        setRequest(request);
+        setRequest(response);
       }
     } catch (error) {
       console.log(error);
@@ -50,15 +50,15 @@ function RequestStatus(props) {
 
   const getRequestMessages = async () => {
     try {
-      const messages = await getMessages(requestId, authorization);
+      const response = await getMessages(requestId, authorization);
 
-      if (request === "session expired") {
+      if (response === "session expired") {
         alert("session expired, you'll be redirected");
         dispatch(logout());
         dispatch(resetUser());
         navigate("/");
       } else {
-        setMessages(messages);
+        setMessages(response);
       }
     } catch (error) {
       console.log(error);
@@ -67,13 +67,21 @@ function RequestStatus(props) {
 
   const handleMessageSubmit = async (message) => {
     try {
-      const messages = await addMessage(
+      const response = await addMessage(
         requestId,
         authorization,
         message,
         firstName + " " + lastName
       );
-      setMessages(messages);
+
+      if (response === "session expired") {
+        alert("session expired, you'll be redirected");
+        dispatch(logout());
+        dispatch(resetUser());
+        navigate("/");
+      } else {
+        setMessages(response);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +89,16 @@ function RequestStatus(props) {
 
   const handleCloseRequest = async () => {
     try {
-      await closeRequest(requestId, authorization);
+      const response = await closeRequest(requestId, authorization);
+
+      if (response === "session expired") {
+        alert("session expired, you'll be redirected");
+        dispatch(logout());
+        dispatch(resetUser());
+        navigate("/");
+      } else {
+        setRequest(response);
+      }
     } catch (error) {
       console.log(error);
     }

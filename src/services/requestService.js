@@ -93,25 +93,6 @@ export async function closeRequest(requestId, authorization) {
   ) {
     return "session expired";
   }
+
+  return response;
 }
-
-// export async function updateRequest(requestId, isCompleted, authorization) {
-//   const response = await fetch(`http://localhost:8080/requests/${requestId}`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: authorization,
-//     },
-//     body: JSON.stringify({
-//       isCompleted: isCompleted,
-//     }),
-//   }).then((response) => response.json());
-
-//   if (
-//     response.hasOwnProperty("errorMessage") &&
-//     response["errorMessage"].toUpperCase().includes("EXPIRED")
-//   ) {
-//     return "session expired";
-//   }
-//   return response;
-// }

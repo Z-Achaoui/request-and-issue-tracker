@@ -106,7 +106,9 @@ function Requests(props) {
               <img src={newRequestIcon1} alt="newreq" />
             </Link>
           </div>
-          <span className="basis-3/4 pl-4 sm:pl-8">New request</span>
+          <Link to="/requests/new-request">
+            <span className="basis-3/4 pl-4 sm:pl-8">New request</span>
+          </Link>
         </section>
         <section className="my-4 border shadow-sm rounded-md">
           <RequestsItems
