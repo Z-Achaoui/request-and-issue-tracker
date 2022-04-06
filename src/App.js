@@ -36,7 +36,7 @@ function App() {
             <Route path="/issues" element={<Issues />} />
             <Route path="/support" element={<Support />} />
             <Route path="/search-results" element={<SearchResults />} />
-            <Route path="*" element={<NoPage />} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </Fragment>
       ) : (
