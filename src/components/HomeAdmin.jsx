@@ -1,10 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getAdminRequests } from "../services/requestService";
 import { paginate } from "../utils/paginate";
 import Pagination from "./common/Pagination";
 import RequestsItems from "./RequestsItems";
 import pendingRequestsIcon1 from "../icons/pendingRequestsIcon1.png";
+import { logout } from "../app/loginSlice";
+import { resetUser } from "../app/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function HomeAdmin(props) {
   const [pendingRequestsCurrentPage, setPendingRequestsCurrentPage] =
@@ -13,6 +16,9 @@ function HomeAdmin(props) {
   const [allPendingRequests, setAllPendingRequests] = useState([]);
   const [pendingRequests, setPendingRequests] = useState([]);
   const pageSize = 5;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -34,9 +40,16 @@ function HomeAdmin(props) {
 
   const getRequests = async () => {
     try {
-      const allRequests = await getAdminRequests(authorization);
-      const allPendingRequests = allRequests[0];
-      setAllPendingRequests(allPendingRequests);
+      const response = await getAdminRequests(authorization);
+
+      if (response === "session expired") {
+        alert("session expired, you'll be redirected");
+        dispatch(logout());
+        dispatch(resetUser());
+        navigate("/");
+      } else {
+        setAllPendingRequests(response[0]);
+      }
     } catch (error) {
       console.log(error);
     }

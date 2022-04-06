@@ -7,6 +7,14 @@ export async function getMessages(requestId, authorization) {
       },
     }
   ).then((response) => response.json());
+
+  if (
+    messages.hasOwnProperty("errorMessage") &&
+    messages["errorMessage"].toUpperCase().includes("EXPIRED")
+  ) {
+    return "session expired";
+  }
+
   return messages.sort((a, b) => b.id - a.id);
 }
 
@@ -25,5 +33,13 @@ export async function addMessage(requestId, authorization, message, sender) {
       }),
     }
   ).then((response) => response.json());
+
+  if (
+    messages.hasOwnProperty("errorMessage") &&
+    messages["errorMessage"].toUpperCase().includes("EXPIRED")
+  ) {
+    return "session expired";
+  }
+
   return messages.sort((a, b) => b.id - a.id);
 }

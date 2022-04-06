@@ -70,7 +70,7 @@ function Requests(props) {
         : (response = await getAdminRequests(authorization));
 
       if (response === "session expired") {
-        alert("session expired");
+        alert("session expired, you'll be redirected");
         dispatch(logout());
         dispatch(resetUser());
         navigate("/");

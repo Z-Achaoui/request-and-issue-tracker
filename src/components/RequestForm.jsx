@@ -1,12 +1,15 @@
 import React, { Fragment, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../app/loginSlice";
+import { resetUser } from "../app/userSlice";
 import { addRequest } from "../services/requestService";
 import MessageInput from "./common/MessageInput";
 
 function RequestForm() {
   const [subject, setSubject] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.loadUser.value);
 
   const handleSubjectChange = (e) => {
@@ -21,9 +24,16 @@ function RequestForm() {
         requester: user.firstName,
         user: { id: user.id },
       };
-      await addRequest(request, user.authorization);
-      document.getElementById("subject-input").value = "";
-      navigate("/requests");
+      const response = await addRequest(request, user.authorization);
+      if (request === "session expired") {
+        alert("session expired, you'll be redirected");
+        dispatch(logout());
+        dispatch(resetUser());
+        navigate("/");
+      } else {
+        document.getElementById("subject-input").value = "";
+        navigate("/requests");
+      }
     } catch (error) {
       console.log(error);
     }

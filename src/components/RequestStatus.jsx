@@ -1,8 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getMessages, addMessage } from "../services/messagesService";
 import { closeRequest, getRequest } from "../services/requestService";
+import { logout } from "../app/loginSlice";
+import { resetUser } from "../app/userSlice";
 import MessageInput from "./common/MessageInput";
 import MessageFeed from "./MessageFeed";
 import RequestSummary from "./RequestSummary";
@@ -11,6 +13,9 @@ function RequestStatus(props) {
   const [request, setRequest] = useState({});
   const [messages, setMessages] = useState([]);
   const { requestId } = useLocation().state;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { firstName, lastName, authorization, roles } = useSelector(
     (state) => state.loadUser.value
@@ -29,7 +34,15 @@ function RequestStatus(props) {
   const getUserRequest = async () => {
     try {
       const request = await getRequest(requestId, authorization);
-      setRequest(request);
+
+      if (request === "session expired") {
+        alert("session expired, you'll be redirected");
+        dispatch(logout());
+        dispatch(resetUser());
+        navigate("/");
+      } else {
+        setRequest(request);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -38,7 +51,15 @@ function RequestStatus(props) {
   const getRequestMessages = async () => {
     try {
       const messages = await getMessages(requestId, authorization);
-      setMessages(messages);
+
+      if (request === "session expired") {
+        alert("session expired, you'll be redirected");
+        dispatch(logout());
+        dispatch(resetUser());
+        navigate("/");
+      } else {
+        setMessages(messages);
+      }
     } catch (error) {
       console.log(error);
     }
