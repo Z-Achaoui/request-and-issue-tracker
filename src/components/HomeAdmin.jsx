@@ -22,9 +22,9 @@ function HomeAdmin(props) {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (!allPendingRequests.length) getRequests();
+    getRequests();
     return () => controller.abort();
-  });
+  }, []);
 
   useEffect(() => {
     if (!pendingRequests.length && allPendingRequests.length)
