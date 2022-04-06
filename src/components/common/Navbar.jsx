@@ -55,7 +55,7 @@ function NavBar(props) {
 
   return (
     <Fragment>
-      <div className="fixed z-50 top-0 w-full flex flex-row justify-end items-center h-12 tracking-wider font-sans bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
+      <div className="fixed z-40 top-0 w-full flex flex-row justify-end items-center h-12 tracking-wider font-sans bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
         <div className="fixed left-2 top-0 flex flex-row items-center h-12">
           <img src={props.logoLink} alt="logo" className="h-5/6 items-center" />
           <span className="ml-2 italic text-white font-semibold tracking-normal text-base sm:text-lg">
@@ -98,20 +98,20 @@ function NavBar(props) {
           <VscMenu />
         </button>
       </div>
-      <div className="fixed z-40 top-12 py-4 px-12 w-full flex flex-col justify-between bg-gradient-to-r from-sky-700 to-cyan-500 text-white md:flex-row md:justify-between md:items-center">
+      <div className="fixed z-30 top-12 py-4 px-12 w-full flex flex-col justify-between bg-gradient-to-r from-sky-700 to-cyan-500 text-white md:flex-row md:justify-between md:items-center">
         <section className="inline-block mb-4 align-middle mr-8 text-sm italic capitalize md:mb-0">
           {location}
         </section>
-        <section className="inline-block align-middle min-w-[170px] h-8 text-black bg-white border shadow-md border-gray-300 rounded-md sm:min-w-[240px]">
+        <section className="flex flex-row min-w-[170px] h-8 text-black bg-white border shadow-md border-gray-300 rounded-md sm:min-w-[240px]">
           <input
             id="search-input"
             onChange={handleInputChange}
             placeholder="Search..."
-            className="p-2 inline-block align-middle w-5/6 h-full text-black placeholder-gray-400 focus:outline-none focus:border-none focus:ring-0 rounded-l-md text-xs"
+            className="p-2 w-5/6 h-full text-black placeholder-gray-400 focus:outline-none focus:border-none focus:ring-0 rounded-l-md text-xs"
           />
           <button
             onClick={handleSearch}
-            className="inline-block align-middle w-1/6 h-full p-1.5 stroke-gray-500 hover:cursor-pointer"
+            className="flex flex-row justify-center align-middle w-1/6 h-full p-1.5 stroke-gray-500 hover:cursor-pointer"
           >
             <IoSearchOutline />
           </button>

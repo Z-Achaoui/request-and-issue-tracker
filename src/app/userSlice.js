@@ -8,6 +8,7 @@ const initialState = {
     email: "",
     authorization: "",
     roles: [],
+    sessionExpired: false,
   },
 };
 

@@ -18,13 +18,14 @@ import SearchResults from "./components/SearchResults";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.accountLogin.value);
+  const { sessionExpired } = useSelector((state) => state.loadUser.value);
 
   return (
     <div className="flex flex-col h-screen items-center">
       {isLoggedIn ? (
         <Fragment>
           <NavBar logoLink={logo} />
-          <Modal showModal={false} />
+          <Modal showModal={sessionExpired} />
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/requests" element={<Requests />} />
