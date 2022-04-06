@@ -25,7 +25,7 @@ function App() {
       {isLoggedIn ? (
         <Fragment>
           <NavBar logoLink={logo} />
-          <Modal showModal={sessionExpired} />
+          <Modal showModal={false} />
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/requests" element={<Requests />} />

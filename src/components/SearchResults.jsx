@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { logout } from "../app/loginSlice";
+import { resetUser } from "../app/userSlice";
 import searchIcon1 from "../icons/searchIcon1.png";
 import { getAdminRequests, getUserRequests } from "../services/requestService";
 import { paginate } from "../utils/paginate";
@@ -18,11 +20,23 @@ function SearchResults(props) {
   const [allFilteredRequests, setAllFilteredRequests] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const pageSize = 10;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const controller = new AbortController();
-    if (!allFilteredRequests.length) getRequests();
+    getRequests();
     return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
+    if (!allFilteredRequests.length && allRequests.length) {
+      setAllFilteredRequests(
+        allRequests.filter((r) =>
+          r.subject.toUpperCase().includes(state.toUpperCase())
+        )
+      );
+    }
   });
 
   useEffect(() => {
@@ -30,7 +44,7 @@ function SearchResults(props) {
       setFilteredRequests(paginate(allFilteredRequests, currentPage, pageSize));
       setSearchInput(state);
     }
-  }, [filteredRequests, allFilteredRequests, currentPage, pageSize, state]);
+  });
 
   useEffect(() => {
     document.getElementById("search-input").value = "";
@@ -45,25 +59,23 @@ function SearchResults(props) {
   }, [state, searchInput, allRequests]);
 
   const getRequests = async () => {
-    let [allPendingRequests, allCompletedRequests] = [[], []];
+    let response = [];
     try {
       const roleNameIndex = roles.findIndex(
         (role) => role.roleName === "ADMIN"
       );
       roleNameIndex === -1
-        ? ([allPendingRequests, allCompletedRequests] = await getUserRequests(
-            id,
-            authorization
-          ))
-        : ([allPendingRequests, allCompletedRequests] = await getAdminRequests(
-            authorization
-          ));
-      setAllRequests([allPendingRequests, allCompletedRequests].flat());
-      setAllFilteredRequests(
-        allRequests.filter((r) =>
-          r.subject.toUpperCase().includes(state.toUpperCase())
-        )
-      );
+        ? (response = await getUserRequests(id, authorization))
+        : (response = await getAdminRequests(authorization));
+
+      if (response === "session expired") {
+        alert("session expired, you'll be redirected");
+        dispatch(logout());
+        dispatch(resetUser());
+        navigate("/");
+      } else {
+        setAllRequests(response.flat());
+      }
     } catch (error) {
       console.log(error);
     }
