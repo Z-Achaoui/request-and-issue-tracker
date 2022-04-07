@@ -49,8 +49,10 @@ function NavBar(props) {
   };
 
   const handleSearch = () => {
-    navigate("/search-results", { state: searchInput });
-    setSearchInput("");
+    if (searchInput !== "") {
+      navigate("/search-results", { state: searchInput });
+      setSearchInput("");
+    }
   };
 
   return (

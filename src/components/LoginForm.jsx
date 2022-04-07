@@ -71,19 +71,28 @@ function LoginForm(props) {
   const doSubmit = async () => {
     const { username, password } = state.data;
     try {
-      const [user, jwt] = await loginUser(username, password);
-      dispatch(
-        loadUser({
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          authorization: jwt,
-          roles: user.roles,
-        })
-      );
-      dispatch(login());
-      navigate(`/home`, { replace: true });
+      const response = await loginUser(username, password);
+
+      if (response === "user not found") {
+        alert("user not found");
+        setState({ ...state, readyToSubmit: false });
+        return;
+      } else {
+        const [user, jwt] = response;
+        dispatch(
+          loadUser({
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            authorization: jwt,
+            roles: user.roles,
+            sessionExpired: false,
+          })
+        );
+        dispatch(login());
+        navigate(`/home`, { replace: true });
+      }
     } catch (err) {
       console.log(err);
     }
