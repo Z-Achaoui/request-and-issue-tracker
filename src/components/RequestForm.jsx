@@ -18,6 +18,10 @@ function RequestForm() {
 
   const handleRequestSubmit = async (requestBody) => {
     try {
+      if (subject === "" || requestBody === "") {
+        alert("please fil request and subject description");
+        return;
+      }
       const request = {
         subject,
         body: requestBody,
@@ -25,7 +29,7 @@ function RequestForm() {
         user: { id: user.id },
       };
       const response = await addRequest(request, user.authorization);
-      if (request === "session expired") {
+      if (response === "session expired") {
         alert("session expired, you'll be redirected");
         dispatch(logout());
         dispatch(resetUser());
@@ -44,8 +48,8 @@ function RequestForm() {
       <header className="flex-initial justify-center items-center w-full min-h-fit text-3xl p-8 text-cyan-700 font-semibold italic">
         <h1>New Request</h1>
       </header>
-      <div className="md:grid md:grid-cols-5 w-full">
-        <section className="col-start-2 col-span-3 flex flex-col justify-center max-w-[528px]">
+      <div className="grid grid-cols-5 w-full">
+        <section className="col-start-1 col-span-5 sm:col-start-2 sm:col-span-3 flex flex-col justify-center max-w-[528px]">
           <span className="mx-4 mb-2 inline-block text-sm text-cyan-700 font-semibold">
             Subject
           </span>
@@ -56,7 +60,7 @@ function RequestForm() {
             className="mx-2 p-2 align-middle bg-white border shadow-md border-gray-300 placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-cyan-500 rounded-md text-xs focus:ring-1"
           />
         </section>
-        <section className="col-start-2 col-span-3 flex flex-col justify-center w-full">
+        <section className="col-start-1 col-span-5 sm:col-start-2 sm:col-span-3 flex flex-col justify-center w-full">
           <span className="mx-4 mt-8 mb-2 inline-block text-sm text-cyan-700 font-semibold">
             Description
           </span>

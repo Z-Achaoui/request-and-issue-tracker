@@ -73,7 +73,7 @@ function Requests(props) {
         alert("session expired, you'll be redirected");
         dispatch(logout());
         dispatch(resetUser());
-        navigate("/");
+        navigate("/", { replace: true });
       } else {
         setAllPendingRequests(response[0]);
         setAllCompletedRequests(response[1]);
