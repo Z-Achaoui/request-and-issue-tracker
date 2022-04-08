@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Card from "./common/Card";
 import requestIcon from "../icons/requestIcon.png";
 import issueIcon from "../icons/issueIcon.png";
@@ -7,10 +7,7 @@ import supportIcon from "../icons/supportIcon.png";
 function HomeUser(props) {
   return (
     <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
-      <header className="flex-initial justify-center items-center w-full min-h-fit text-3xl p-8 text-cyan-700 font-semibold italic">
-        <h1>Home</h1>
-      </header>
-      <div className="mt-4 flex flex-col items-center justify-around md:grid md:grid-flow-col-dense md:justify-center">
+      <div className="mt-16 flex flex-col items-center justify-around md:grid md:grid-flow-col-dense md:justify-center">
         <Card
           imgLink={requestIcon}
           title={"Requests"}

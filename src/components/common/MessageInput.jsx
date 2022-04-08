@@ -19,6 +19,8 @@ function MessageInput(props) {
       props.parentHandleSubmit(data);
       document.getElementById("text-area").style.height = "inherit";
       setData("");
+    } else {
+      alert("please type something before submit");
     }
   };
 

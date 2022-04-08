@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 
 function Support(props) {
   const [data, setData] = useState("");
@@ -8,9 +8,13 @@ function Support(props) {
     setData(e.target.value);
   };
   const handleSubmit = () => {
-    document.getElementById("body").style.height = "inherit";
-    setData("");
-    alert("message submitted");
+    if (data === "") {
+      alert("Please type a message before submit");
+    } else {
+      alert("message submitted");
+      setData("");
+      document.getElementById("body").style.height = "inherit";
+    }
   };
   return (
     <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">

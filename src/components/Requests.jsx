@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../app/loginSlice";
@@ -96,10 +96,7 @@ function Requests(props) {
 
   return (
     <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
-      <header className="flex-initial justify-center items-center w-full min-h-fit text-3xl p-8 text-cyan-700 font-semibold italic">
-        <h1>Requests</h1>
-      </header>
-      <div className="grid grid-flow-row-dense w-3/4 text-cyan-700 font-semibold">
+      <div className="mt-16 grid grid-flow-row-dense w-3/4 text-cyan-700 font-semibold">
         <section className="flex flex-row place-items-center text-sm my-4 w-auto border shadow-sm rounded-md bg-cyan-50 sm:text-base">
           <div className="inline-block border-r w-[72px] justify-center p-3 sm:w-24">
             <Link to="/requests/new-request">

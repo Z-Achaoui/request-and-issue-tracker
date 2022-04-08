@@ -19,7 +19,7 @@ function NavBar(props) {
   const role = roles.find((r) => r.roleName === "ADMIN") ? "ADMIN" : "USER";
   let location = useLocation().pathname;
   location = location.includes("/home")
-    ? ""
+    ? "home"
     : "home" + location.replace(/\//g, ">").replace(/-/g, " ");
 
   const dispatch = useDispatch();

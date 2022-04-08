@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getMessages, addMessage } from "../services/messagesService";
@@ -88,9 +88,11 @@ function RequestStatus(props) {
   };
 
   const handleCloseRequest = async () => {
+    if (!window.confirm("this action is irreversible, do you confirm?")) {
+      return;
+    }
     try {
       const response = await closeRequest(requestId, authorization);
-
       if (response === "session expired") {
         alert("session expired, you'll be redirected");
         dispatch(logout());
@@ -128,7 +130,12 @@ function RequestStatus(props) {
         <div className="row-start-5 col-span-2 flex flex-col w-full h-full p-4 my-4 sm:border-l text-sm items-center justify-start sm:col-start-3 sm:row-start-1 sm:row-end-5">
           {roles.find((r) => r.roleName === "ADMIN") && (
             <button
-              className="rounded-md shadow-md bg-red-500 outline-1 outline-red-600 px-2 py-1 italic self-end text-xs text-lime-300"
+              className={
+                "rounded-md shadow-md px-2 py-1 italic self-end text-xs " +
+                (request.isCompleted
+                  ? "text-slate-50 bg-gray-400"
+                  : "text-lime-300 bg-red-500 outline-1 outline-red-600")
+              }
               onClick={handleCloseRequest}
               disabled={request.isCompleted}
             >

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../app/loginSlice";
@@ -17,11 +17,11 @@ function RequestForm() {
   };
 
   const handleRequestSubmit = async (requestBody) => {
+    if (subject === "" || requestBody === "") {
+      alert("please fil request and subject description");
+      return;
+    }
     try {
-      if (subject === "" || requestBody === "") {
-        alert("please fil request and subject description");
-        return;
-      }
       const request = {
         subject,
         body: requestBody,
