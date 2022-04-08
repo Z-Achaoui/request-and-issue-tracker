@@ -57,17 +57,17 @@ function NavBar(props) {
 
   return (
     <Fragment>
-      <div className="fixed z-40 top-0 w-full flex flex-row justify-end items-center h-12 tracking-wider font-sans bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
-        <div className="fixed left-2 top-0 flex flex-row items-center h-12">
-          <img src={props.logoLink} alt="logo" className="h-5/6 items-center" />
-          <span className="ml-2 italic text-white font-semibold tracking-normal text-base sm:text-lg">
+      <div className="fixed z-40 top-0 w-full flex flex-row justify-between items-center h-12 tracking-wider font-sans bg-gradient-to-r from-sky-800 to-cyan-600 text-white max-w-screen-xlg">
+        <div className="px-2 flex flex-row min-w-fit items-center justify-between h-12">
+          <img src={props.logoLink} alt="logo" className="h-5/6" />
+          <span className="ml-2 italic whitespace-nowrap text-white font-semibold tracking-normal text-base sm:text-lg hidden sm:inline">
             {"Request & Issue Tracker"}
           </span>
         </div>
         <nav
           className={
             "flex flex-col items-center absolute h-fit w-full bg-gradient-to-r from-sky-700 to-cyan-500 top-12 " +
-            "md:flex md:flex-row md:justify-end md:static md:top-0 md:h-12 md:bg-gradient-to-r md:from-sky-800 md:to-cyan-600 " +
+            "md:flex md:flex-row md:justify-end md:static md:top-0 md:h-12 md:from-transparent md:to-transparent " +
             ((showMenu && "block") || "hidden")
           }
         >
@@ -100,7 +100,7 @@ function NavBar(props) {
           <VscMenu />
         </button>
       </div>
-      <div className="fixed z-30 top-12 py-4 px-12 w-full flex flex-col justify-between bg-gradient-to-r from-sky-700 to-cyan-500 text-white md:flex-row md:justify-between md:items-center">
+      <div className="fixed z-30 top-12 py-4 px-12 w-full flex flex-col justify-between bg-gradient-to-r from-sky-700 to-cyan-500 text-white md:flex-row md:justify-between md:items-center max-w-screen-xlg">
         <section className="inline-block mb-4 align-middle mr-8 text-sm italic capitalize md:mb-0">
           {location}
         </section>

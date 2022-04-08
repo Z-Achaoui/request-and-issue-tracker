@@ -105,7 +105,7 @@ function RequestStatus(props) {
   };
 
   return (
-    <Fragment>
+    <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
       <header className="flex-initial w-full min-h-fit p-4 mt-4 text-center text-2xl text-cyan-700 font-semibold italic">
         <h1>{`Request # ${request.id} : ${request.subject}`}</h1>
       </header>
@@ -149,7 +149,7 @@ function RequestStatus(props) {
       <footer className="mt-4 text-sm text-center justify-around h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
         Footer
       </footer>
-    </Fragment>
+    </div>
   );
 }
 

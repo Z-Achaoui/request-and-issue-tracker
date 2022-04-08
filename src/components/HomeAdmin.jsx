@@ -61,7 +61,7 @@ function HomeAdmin(props) {
   };
 
   return (
-    <Fragment>
+    <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
       <h2 className="self-start text-2xl mx-4 mb-2 text-cyan-700 font-semibold italic md:mt-8">
         Pending requests
       </h2>
@@ -85,7 +85,7 @@ function HomeAdmin(props) {
       <footer className="mt-4 text-sm text-center justify-around h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
         Footer
       </footer>
-    </Fragment>
+    </div>
   );
 }
 

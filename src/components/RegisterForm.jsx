@@ -102,25 +102,27 @@ function RegisterForm(props) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="box-border min-w-[280px] max-w-[360px] p-4 m-12 container mx-auto flex flex-col justify-start h-auto shadow-md rounded-lg"
-    >
-      <h1 className="mt-1 mb-6 text-center text-3xl capitalize">Sign Up</h1>
-      {renderInput("firstName", "First Name")}
-      {renderInput("lastName", "Last Name")}
-      {renderInput("email", "Email", "email")}
-      {renderInput("password", "Password", "password")}
-      {renderButton("sign up")}
-      <div className="relative mx-4 mt-3 text-xs">
-        <span className="absolute left-0">
-          Already have an acount ? Sign In
-        </span>
-      </div>
-      <p className="mt-10 mx-4 text-xs text-center">
-        Copyright © MyWebsite 2022
-      </p>
-    </form>
+    <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
+      <form
+        onSubmit={handleSubmit}
+        className="box-border min-w-[280px] max-w-[360px] p-4 m-12 container mx-auto flex flex-col justify-start h-auto shadow-md rounded-lg"
+      >
+        <h1 className="mt-1 mb-6 text-center text-3xl capitalize">Sign Up</h1>
+        {renderInput("firstName", "First Name")}
+        {renderInput("lastName", "Last Name")}
+        {renderInput("email", "Email", "email")}
+        {renderInput("password", "Password", "password")}
+        {renderButton("sign up")}
+        <div className="relative mx-4 mt-3 text-xs">
+          <span className="absolute left-0">
+            Already have an acount ? Sign In
+          </span>
+        </div>
+        <p className="mt-10 mx-4 text-xs text-center">
+          Copyright © MyWebsite 2022
+        </p>
+      </form>
+    </div>
   );
 }
 
