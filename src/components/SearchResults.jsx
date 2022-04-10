@@ -37,14 +37,14 @@ function SearchResults(props) {
         )
       );
     }
-  });
+  }, [allFilteredRequests, allRequests, state]);
 
   useEffect(() => {
     if (!filteredRequests.length && allFilteredRequests.length) {
       setFilteredRequests(paginate(allFilteredRequests, currentPage, pageSize));
       setSearchInput(state);
     }
-  });
+  }, [filteredRequests, allFilteredRequests, state, currentPage]);
 
   useEffect(() => {
     document.getElementById("search-input").value = "";
@@ -107,8 +107,8 @@ function SearchResults(props) {
         </section>
       </div>
       <div className="flex-auto"></div>
-      <footer className="mt-4 text-sm text-center justify-around h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
-        Footer
+      <footer className="flex justify-center items-center mt-4 text-xs h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
+        <span>Copyright © MyWebsite 2022</span>
       </footer>
     </div>
   );

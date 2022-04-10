@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAdminRequests } from "../services/requestService";
+import { useNavigate } from "react-router-dom";
 import { paginate } from "../utils/paginate";
 import Pagination from "./common/Pagination";
 import RequestsItems from "./RequestsItems";
 import pendingRequestsIcon1 from "../icons/pendingRequestsIcon1.png";
 import { logout } from "../app/loginSlice";
 import { resetUser } from "../app/userSlice";
-import { useNavigate } from "react-router-dom";
 
 function HomeAdmin(props) {
   const [pendingRequestsCurrentPage, setPendingRequestsCurrentPage] =
@@ -82,8 +82,8 @@ function HomeAdmin(props) {
         </section>
       </div>
       <div className="flex-auto"></div>
-      <footer className="mt-4 text-sm text-center justify-around h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
-        Footer
+      <footer className="flex justify-center items-center mt-4 text-xs h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
+        <span>Copyright © MyWebsite 2022</span>
       </footer>
     </div>
   );

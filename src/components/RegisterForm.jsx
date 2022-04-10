@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Joi from "joi";
 import { useState } from "react";
 import Button from "./common/Button";
@@ -114,9 +114,12 @@ function RegisterForm(props) {
         {renderInput("password", "Password", "password")}
         {renderButton("sign up")}
         <div className="relative mx-4 mt-3 text-xs">
-          <span className="absolute left-0">
+          <Link
+            to={"/login"}
+            className="absolute left-0 underline text-cyan-600"
+          >
             Already have an acount ? Sign In
-          </span>
+          </Link>
         </div>
         <p className="mt-10 mx-4 text-xs text-center">
           Copyright © MyWebsite 2022

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Joi from "joi";
 import { login } from "../app/loginSlice";
 import { loadUser } from "../app/userSlice";
@@ -128,7 +128,12 @@ function LoginForm(props) {
         {renderButton("sing in")}
         <div className="relative mx-4 mt-3 text-xs">
           <span className="absolute left-0">Forgot your password</span>
-          <span className="absolute right-0">Sign up</span>
+          <Link
+            to={"/register"}
+            className="absolute right-0 underline text-cyan-600"
+          >
+            Sign up
+          </Link>
         </div>
         <p className="mt-10 mx-4 text-xs text-center">
           Copyright © MyWebsite 2022

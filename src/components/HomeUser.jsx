@@ -30,8 +30,8 @@ function HomeUser(props) {
         />
       </div>
       <div className="flex-auto"></div>
-      <footer className="mt-4 text-sm text-center justify-around h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
-        Footer
+      <footer className="flex justify-center items-center mt-4 text-xs h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
+        <span>Copyright © MyWebsite 2022</span>
       </footer>
     </div>
   );
