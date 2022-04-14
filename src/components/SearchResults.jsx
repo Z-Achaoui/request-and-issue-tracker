@@ -30,14 +30,12 @@ function SearchResults(props) {
   }, []);
 
   useEffect(() => {
-    if (!allFilteredRequests.length && allRequests.length) {
-      setAllFilteredRequests(
-        allRequests.filter((r) =>
-          r.subject.toUpperCase().includes(state.toUpperCase())
-        )
-      );
-    }
-  }, [allFilteredRequests, allRequests, state]);
+    setAllFilteredRequests(
+      allRequests.filter((r) =>
+        r.subject.toUpperCase().includes(state.toUpperCase())
+      )
+    );
+  }, [allRequests, state]);
 
   useEffect(() => {
     if (!filteredRequests.length && allFilteredRequests.length) {
