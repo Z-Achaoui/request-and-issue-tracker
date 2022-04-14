@@ -13,7 +13,8 @@ import RequestForm from "./components/RequestForm";
 import Requests from "./components/Requests";
 import RequestStatus from "./components/RequestStatus";
 import Support from "./components/Support";
-import logo from "./icons/logo.png";
+import logoLandingPage from "./icons/logo1.png";
+import logoNavBar from "./icons/logo2.png";
 import SearchResults from "./components/SearchResults";
 import Profile from "./components/Profile";
 
@@ -25,7 +26,7 @@ function App() {
     <div className="flex flex-col h-screen items-center bg-slate-200">
       {isLoggedIn ? (
         <Fragment>
-          <NavBar logoLink={logo} />
+          <NavBar logoLink={logoNavBar} />
           <Modal showModal={false} />
           <Routes>
             <Route path="/home" element={<Home />} />
@@ -44,7 +45,10 @@ function App() {
         </Fragment>
       ) : (
         <Routes>
-          <Route path="/" element={<LandingPage logoLink={logo} />} />
+          <Route
+            path="/"
+            element={<LandingPage logoLink={logoLandingPage} />}
+          />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="*" element={<NoPage />} />
