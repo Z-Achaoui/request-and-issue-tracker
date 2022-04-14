@@ -117,10 +117,10 @@ function LoginForm(props) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
+    <div className="flex-auto flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
       <form
         onSubmit={handleSubmit}
-        className="box-border min-w-[280px] max-w-[360px] p-4 m-12 container mx-auto flex flex-col justify-start h-auto shadow-md rounded-lg"
+        className="box-border min-w-[280px] max-w-[360px] p-4 mt-24 container mx-auto flex flex-col justify-start h-auto shadow-md rounded-lg"
       >
         <h1 className="mt-1 mb-6 text-center text-3xl capitalize">Sign In</h1>
         {renderInput("username", "Username")}

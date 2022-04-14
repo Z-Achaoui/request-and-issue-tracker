@@ -102,7 +102,7 @@ function RegisterForm(props) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
+    <div className="flex-auto flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
       <form
         onSubmit={handleSubmit}
         className="box-border min-w-[280px] max-w-[360px] p-4 m-12 container mx-auto flex flex-col justify-start h-auto shadow-md rounded-lg"

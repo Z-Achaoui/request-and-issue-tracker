@@ -107,7 +107,7 @@ function RequestStatus(props) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
+    <div className="flex-auto flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
       <header className="flex-initial w-full min-h-fit p-4 mt-4 text-center text-2xl text-cyan-700 font-semibold italic">
         <h1>{`Request # ${request.id} : ${request.subject}`}</h1>
       </header>
@@ -152,8 +152,8 @@ function RequestStatus(props) {
           <p className="text-[10px] italic">{request.created}</p>
         </div>
       </div>
-      <div className="flex-auto"></div>
-      <footer className="flex justify-center items-center mt-4 text-xs h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
+      <div className="flex-auto min-h-full"></div>
+      <footer className="flex justify-center items-center py-4 mt-4 text-xs h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
         <span>Copyright © MyWebsite 2022</span>
       </footer>
     </div>

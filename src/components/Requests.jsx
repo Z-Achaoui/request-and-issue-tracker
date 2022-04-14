@@ -95,7 +95,7 @@ function Requests(props) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
+    <div className="flex-auto flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
       <div className="mt-16 grid grid-flow-row-dense w-3/4 text-cyan-700 font-semibold">
         <section className="flex flex-row place-items-center text-sm my-4 w-auto border shadow-sm rounded-md bg-cyan-50 sm:text-base">
           <div className="inline-block border-r w-[72px] justify-center p-3 sm:w-24">
@@ -137,7 +137,7 @@ function Requests(props) {
         </section>
       </div>
       <div className="flex-auto"></div>
-      <footer className="flex justify-center items-center mt-4 text-xs h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
+      <footer className="flex justify-center items-center py-4 mt-4 text-xs h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
         <span>Copyright © MyWebsite 2022</span>
       </footer>
     </div>

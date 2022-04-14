@@ -40,7 +40,7 @@ function LandingPage(props) {
   };
 
   return (
-    <div className="flex flex-col min-w-[280px] max-w-screen-xlg w-screen h-screen items-center justify-center py-8 bg-cyan-500 sm:py-24">
+    <div className="flex-auto flex flex-col min-w-[280px] max-w-screen-xlg w-screen h-screen items-center justify-center py-8 bg-cyan-500 sm:py-24">
       <div className="h-full w-full text-green-100 bg-gradient-to-r from-sky-800 to-cyan-600 sm:grid sm:grid-flow-row sm:grid-cols-5">
         <div className="flex flex-col w-full justify-center p-2 sm:p-4 sm:col-span-3 sm:h-full">
           <div className="flex flex-col justify-center items-center text-3xl text-center sm:text-left sm:text-4xl sm:flex-row md:text-5xl">

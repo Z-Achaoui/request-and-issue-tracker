@@ -23,7 +23,7 @@ function App() {
   const { sessionExpired } = useSelector((state) => state.loadUser.value);
 
   return (
-    <div className="flex flex-col h-screen items-center bg-slate-200">
+    <div className="flex flex-col min-h-screen items-center bg-slate-200">
       {isLoggedIn ? (
         <Fragment>
           <NavBar logoLink={logoNavBar} />

@@ -6,7 +6,7 @@ import supportIcon from "../icons/supportIcon.png";
 
 function HomeUser(props) {
   return (
-    <div className="flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
+    <div className="flex-auto flex flex-col items-center w-full h-full max-w-screen-xlg bg-white">
       <div className="mt-16 flex flex-col items-center justify-around md:grid md:grid-flow-col-dense md:justify-center">
         <Card
           imgLink={requestIcon}
@@ -30,7 +30,7 @@ function HomeUser(props) {
         />
       </div>
       <div className="flex-auto"></div>
-      <footer className="flex justify-center items-center mt-4 text-xs h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
+      <footer className="flex justify-center items-center py-4 mt-4 text-xs h-6 w-full bg-gradient-to-r from-sky-800 to-cyan-600 text-white">
         <span>Copyright © MyWebsite 2022</span>
       </footer>
     </div>
